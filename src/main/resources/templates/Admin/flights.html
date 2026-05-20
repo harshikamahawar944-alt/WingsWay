@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manage Flights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/wingway-admin.css}" href="../../static/css/wingway-admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+    <nav class="admin-nav">
+        <a class="admin-brand" th:href="@{/api/v1/demo-controller/admin/getAllUsers}">
+            <span class="admin-brand-mark"><i class="fa-solid fa-plane"></i></span>
+            <span><strong>WingWay</strong><small>Admin Control</small></span>
+        </a>
+        <div class="admin-links">
+            <a th:href="@{/api/v1/demo-controller/admin/getAllUsers}"><i class="fa-solid fa-users"></i><span>Users</span></a>
+            <a class="active" th:href="@{/api/v1/demo-controller/admin/flights}"><i class="fa-solid fa-plane-departure"></i><span>Flights</span></a>
+            <a th:href="@{/api/v1/demo-controller/admin/bookings}"><i class="fa-solid fa-ticket"></i><span>Bookings</span></a>
+            <a th:href="@{/api/v1/demo-controller/admin/users/new}"><i class="fa-solid fa-user-plus"></i><span>Add User</span></a>
+        </div>
+        <a class="admin-logout" th:href="@{/api/v1/auth/logout}"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+
+    <main class="admin-main">
+        <section class="admin-hero">
+            <div>
+                <span class="admin-eyebrow"><i class="fa-solid fa-plane-circle-check"></i> Flight Inventory</span>
+                <h1>Keep every route ready for passengers.</h1>
+                <p>Maintain aircraft, route, timing, seat, distance, and fare records used by the public booking flow.</p>
+            </div>
+            <div class="admin-actions">
+                <a class="admin-button" th:href="@{/api/v1/demo-controller/admin/flights/new}"><i class="fa-solid fa-plus"></i>New Flight</a>
+            </div>
+        </section>
+
+        <section class="admin-stats">
+            <article class="admin-stat"><i class="fa-solid fa-plane-departure"></i><div><span>Flight Records</span><strong th:text="${#lists.size(stuList)}">0</strong></div></article>
+            <article class="admin-stat"><i class="fa-solid fa-route"></i><div><span>Route Desk</span><strong>Live</strong></div></article>
+            <article class="admin-stat"><i class="fa-solid fa-chair"></i><div><span>Inventory</span><strong>Seats</strong></div></article>
+        </section>
+
+        <section class="admin-panel">
+            <div class="admin-panel-head">
+                <div>
+                    <h2>Manage Flights</h2>
+                    <p th:if="${message}" th:text="${message}">Message</p>
+                    <p th:unless="${message}">Flight records available for search and booking.</p>
+                </div>
+            </div>
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Flight No</th>
+                        <th>Airline</th>
+                        <th>Aircraft</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Seats</th>
+                        <th>KM</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(stuList)}">
+                        <td class="admin-empty" colspan="11">No flights found.</td>
+                    </tr>
+                    <tr th:each="i : ${stuList}">
+                        <td><span class="admin-pill" th:text="${i.flightNumber}">6E 201</span></td>
+                        <td th:text="${i.airline}">IndiGo</td>
+                        <td th:text="${i.aircraftModel}">Airbus A320</td>
+                        <td th:text="${i.start}">Colombo</td>
+                        <td th:text="${i.end}">Jaffna</td>
+                        <td th:text="${i.departureTime}">06:10 AM</td>
+                        <td th:text="${i.arrivalTime}">07:22 AM</td>
+                        <td th:text="${i.avlSeat}">60</td>
+                        <td th:text="${i.numOfKm}">396</td>
+                        <td th:text="${i.price}">3960000</td>
+                        <td>
+                            <form th:action="@{'/api/v1/demo-controller/admin/flights/delete/' + ${i.id}}" method="post">
+                                <button class="admin-danger-button" type="submit"><i class="fa-solid fa-trash"></i>Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

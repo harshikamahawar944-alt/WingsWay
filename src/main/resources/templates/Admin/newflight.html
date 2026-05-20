@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New Flight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/wingway-admin.css}" href="../../static/css/wingway-admin.css">
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+    <nav class="admin-nav">
+        <a class="admin-brand" th:href="@{/api/v1/demo-controller/admin/getAllUsers}">
+            <span class="admin-brand-mark"><i class="fa-solid fa-plane"></i></span>
+            <span><strong>WingWay</strong><small>Admin Control</small></span>
+        </a>
+        <div class="admin-links">
+            <a th:href="@{/api/v1/demo-controller/admin/getAllUsers}"><i class="fa-solid fa-users"></i><span>Users</span></a>
+            <a class="active" th:href="@{/api/v1/demo-controller/admin/flights}"><i class="fa-solid fa-plane-departure"></i><span>Flights</span></a>
+            <a th:href="@{/api/v1/demo-controller/admin/bookings}"><i class="fa-solid fa-ticket"></i><span>Bookings</span></a>
+            <a th:href="@{/api/v1/demo-controller/admin/users/new}"><i class="fa-solid fa-user-plus"></i><span>Add User</span></a>
+        </div>
+        <a class="admin-logout" th:href="@{/api/v1/auth/logout}"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+    </nav>
+
+    <main class="admin-main">
+        <section class="admin-hero">
+            <div>
+                <span class="admin-eyebrow"><i class="fa-solid fa-plus"></i> Inventory Setup</span>
+                <h1>Add a new WingWay flight record.</h1>
+                <p>Create a route that passengers can discover in the search and booking experience.</p>
+            </div>
+            <div class="admin-actions">
+                <a class="admin-button-secondary" th:href="@{/api/v1/demo-controller/admin/flights}"><i class="fa-solid fa-arrow-left"></i>Back to Flights</a>
+            </div>
+        </section>
+
+        <section class="admin-panel">
+            <div class="admin-panel-head">
+                <div>
+                    <h2>Add New Flight</h2>
+                    <p th:if="${message}" th:text="${message}">Message</p>
+                    <p th:unless="${message}">Fill in the route, schedule, seat, and fare details.</p>
+                </div>
+            </div>
+            <form class="admin-form" th:action="@{/api/v1/demo-controller/admin/flights}" th:object="${stu}" method="post">
+                <div class="admin-form-grid">
+                    <div class="admin-field">
+                        <label for="airline">Airline</label>
+                        <input id="airline" type="text" th:field="*{airline}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="flightNumber">Flight Number</label>
+                        <input id="flightNumber" type="text" th:field="*{flightNumber}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="aircraftModel">Aircraft Model</label>
+                        <input id="aircraftModel" type="text" th:field="*{aircraftModel}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="seats">Available Seats</label>
+                        <input id="seats" type="number" min="1" th:field="*{avlSeat}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="from">From</label>
+                        <input id="from" type="text" th:field="*{start}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="to">To</label>
+                        <input id="to" type="text" th:field="*{end}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="departureTime">Departure Time</label>
+                        <input id="departureTime" type="text" th:field="*{departureTime}" placeholder="06:10 AM" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="arrivalTime">Arrival Time</label>
+                        <input id="arrivalTime" type="text" th:field="*{arrivalTime}" placeholder="07:22 AM" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="km">Number of KM</label>
+                        <input id="km" type="number" min="1" step="0.01" th:field="*{numOfKm}" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="price">Base Price</label>
+                        <input id="price" type="number" min="1" step="0.01" th:field="*{price}" required>
+                    </div>
+                </div>
+                <div class="admin-form-actions">
+                    <button class="admin-button" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save Flight</button>
+                    <a class="admin-button-secondary" th:href="@{/api/v1/demo-controller/admin/flights}">Cancel</a>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>

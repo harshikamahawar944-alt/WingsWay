@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>WingWay Registration</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+   <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body class="auth-page">
+<nav class="nav auth-nav">
+  <a class="nav-logo" th:href="@{/api/v1/auth/index}">
+    <div class="nav-logo-mark"><i class="fa-solid fa-plane"></i></div>
+    <div class="nav-brand-text">
+      <span class="nav-brand-name">WingWay</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" th:href="@{/api/v1/auth/index}">Search Flights</a>
+    <a class="nav-link" th:href="@{/api/v1/auth/index#book-form}">Book</a>
+    <a class="nav-link" th:href="@{/api/v1/auth/contact}">Contact</a>
+  </div>
+  <div class="nav-user">
+    <a class="nav-cta" th:href="@{/api/v1/auth/login}">Sign In</a>
+  </div>
+</nav>
+
+<div class="clouds" aria-hidden="true">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+</div>
+
+<div class="airplane" aria-hidden="true">
+  <i class="fas fa-plane"></i>
+</div>
+
+<main class="auth-shell">
+  <section class="login-card">
+    <div class="card-header">
+      <h2>Create Account</h2>
+      <p>Start your journey with WingWay</p>
+    </div>
+
+    <form id="registrationForm">
+      <div class="form-group">
+        <label for="firstname">First Name</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user"></i>
+          <input id="firstname" name="firstname" type="text" class="form-control" placeholder="First name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user"></i>
+          <input id="lastname" name="lastname" type="text" class="form-control" placeholder="Last name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <i class="fas fa-envelope"></i>
+          <input id="email" name="email" type="email" class="form-control" placeholder="user@example.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock"></i>
+          <input id="password" name="password" type="password" class="form-control" placeholder="Create a password" minlength="4" required>
+        </div>
+      </div>
+
+      <p id="registrationStatus" class="auth-status" aria-live="polite"></p>
+
+      <button type="submit" class="btn-login">
+        Create Account <i class="fas fa-user-plus" style="margin-left:8px;"></i>
+      </button>
+
+      <div class="signup-link">
+        Already have an account? <a th:href="@{/api/v1/auth/login}">Sign In</a>
+      </div>
+    </form>
+  </section>
+</main>
+
+<script src="../../static/js/auth.js" th:src="@{/js/auth.js}"></script>
+<script>
+  const form = document.getElementById('registrationForm');
+  const status = document.getElementById('registrationStatus');
+  const button = form.querySelector('.btn-login');
+  const buttonText = button.innerHTML;
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    status.textContent = '';
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+
+    try {
+      const response = await fetch('/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstname: document.getElementById('firstname').value.trim(),
+          lastname: document.getElementById('lastname').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          password: document.getElementById('password').value
+        })
+      });
+
+      if (response.status === 409) {
+        status.textContent = 'This email is already registered.';
+        return;
+      }
+
+      if (!response.ok) {
+        status.textContent = 'Unable to create your account right now.';
+        return;
+      }
+
+      const auth = await response.json();
+      localStorage.setItem('jwtToken', auth.token);
+      localStorage.setItem('userRole', auth.role);
+      window.authUtils?.syncAuthCookie();
+      window.location.href = '/api/v1/auth/index';
+    } catch (error) {
+      status.textContent = 'Unable to create your account right now.';
+    } finally {
+      button.disabled = false;
+      button.innerHTML = buttonText;
+    }
+  });
+</script>
+</body>
+</html>

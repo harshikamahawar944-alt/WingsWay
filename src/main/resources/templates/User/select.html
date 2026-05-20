@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Flight</title>
+  <link rel="stylesheet" th:href="@{/css/select.css}" href="../../static/css/select.css">
+</head>
+<body>
+  <div class="search-shell">
+    <div class="container">
+      <div class="results-header">
+        <div>
+          <p class="eyebrow">Available Flights</p>
+          <h1>Select your preferred airline</h1>
+          <p id="routeSummary">Loading route details...</p>
+        </div>
+        <a class="back-link" th:href="@{/api/v1/auth/index}">Change Search</a>
+      </div>
+
+      <form id="flight-chooser-form">
+        <div id="flightResults" class="results-grid"></div>
+        <div class="results-actions">
+          <p id="flight-status"></p>
+          <button class="buttonsub" type="submit">Continue to Seat Selection</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="../../static/js/select.js" th:src="@{/js/select.js}"></script>
+</body>
+</html>

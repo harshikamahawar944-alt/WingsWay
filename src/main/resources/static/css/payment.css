@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #eef7ef 0%, #d4e6d6 100%);
+  color: #102b18;
+}
+
+.payment-shell {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+.booking-details,
+.payment-method,
+.confirmation-card {
+  background: #fff;
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 24px 70px rgba(20, 64, 33, 0.14);
+}
+
+.booking-details h1 {
+  margin-top: 0;
+}
+
+.booking-details p,
+.printable-ticket p {
+  margin: 10px 0;
+}
+
+.payment-method form {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-method label,
+.payment-method input {
+  margin-bottom: 10px;
+}
+
+.payment-method input {
+  border: 1px solid #cfddcf;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.buttonsub {
+  background: #1f8a47;
+  border: none;
+  border-radius: 999px;
+  color: white;
+  padding: 14px 26px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.buttonsub.secondary {
+  background: #e8f2ea;
+  color: #154126;
+}
+
+.buttonsub:hover {
+  background: #146434;
+}
+
+.buttonsub.secondary:hover {
+  background: #dceadd;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 12px;
+  color: #2d7d46;
+}
+
+.confirmation-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.printable-ticket {
+  margin-top: 18px;
+  border: 1px dashed #99b59f;
+  border-radius: 20px;
+  padding: 20px;
+  background: #f8fbf8;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .payment-method,
+  .confirmation-actions,
+  #paymentPanel {
+    display: none !important;
+  }
+
+  .container,
+  .confirmation-card,
+  .printable-ticket {
+    box-shadow: none;
+    border: none;
+    padding: 0;
+  }
+}

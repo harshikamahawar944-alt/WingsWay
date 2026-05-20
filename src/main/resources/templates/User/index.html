@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WingWay - Flight Reservations</title>
+  <meta name="description" content="Search, compare and book flights with WingWay Airlines.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/wingway-index.css}" href="../../static/css/wingway-index.css">
+</head>
+<body>
+<div class="container">
+
+  <nav class="nav">
+    <a class="nav-logo" th:href="@{/api/v1/auth/index}">
+      <div class="nav-logo-mark"><i class="fa-solid fa-plane"></i></div>
+      <div class="nav-brand-text">
+        <span class="nav-brand-name">WingWay</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link nav-link-active" th:href="@{/api/v1/auth/index}">Search Flights</a>
+      <a class="nav-link" href="#book-form">Book</a>
+      <a class="nav-link" th:href="@{/api/v1/demo-controller/user/my-bookings}" id="my-bookings-link">Dashboard</a>
+      <a class="nav-link" th:href="@{/api/v1/auth/contact}">Contact</a>
+    </div>
+    <div class="nav-user">
+      <a class="auth-login-btn auth-login-link" th:if="${!loggedIn}" th:href="@{/api/v1/auth/login}" aria-label="Login">
+        <i class="fa-regular fa-user" aria-hidden="true"></i>
+        <span>Login</span>
+      </a>
+      <a class="auth-signup-btn auth-login-link" th:if="${!loggedIn}" th:href="@{/api/v1/auth/registration}">
+        Sign Up
+      </a>
+      <div class="profile-menu" th:if="${loggedIn}">
+        <button class="profile-button" type="button" id="profileMenuButton" aria-expanded="false" aria-controls="profileDropdown">
+          <span class="profile-avatar" th:text="${profileInitial}">W</span>
+          <span class="profile-button-copy">
+            <strong th:text="${profileName}">WingWay Passenger</strong>
+            <small th:text="${profileRole}">USER</small>
+          </span>
+          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+
+        <div class="profile-dropdown" id="profileDropdown" role="menu" aria-labelledby="profileMenuButton">
+          <div class="profile-card-head">
+            <span class="profile-avatar large" th:text="${profileInitial}">W</span>
+            <div>
+              <strong th:text="${profileName}">WingWay Passenger</strong>
+              <p th:text="${profileEmail}">passenger@example.com</p>
+            </div>
+          </div>
+          <div class="profile-card-details">
+            <span><i class="fa-solid fa-id-badge"></i> Account type <b th:text="${profileRole}">USER</b></span>
+            <span><i class="fa-solid fa-plane-circle-check"></i> Travel profile <b>Active</b></span>
+          </div>
+          <div class="profile-card-actions">
+            <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings" role="menuitem">
+              <i class="fa-solid fa-briefcase"></i>
+              My bookings
+            </a>
+            <a class="logout-action" th:href="@{/api/v1/auth/logout}" href="/api/v1/auth/logout" role="menuitem">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page" id="page-home">
+ <section class="main-sec">
+        
+        <!-- Black Shade Overlay -->
+        <div class="bg-shade">
+          <img src="../../static/images/HeroSection.png" th:src="@{/images/HeroSection.png}" alt="Hero Background" class="bg-image">
+        </div>
+
+        <!-- Content -->
+        <div class="content-box">
+            <div class="top-badge">Now flying to 12+ cities</div>
+            
+            <h1 class="main-head">
+                Fly <span class="blue-word">smarter</span>, <br>travel beautifully.
+            </h1>
+            
+            <p class="desc-text">
+                Experience the next generation of travel with world-class service and unbeatable comfort. Your journey begins here.
+            </p>
+            
+            <div class="btn-container">
+                <a href="#" class="action-btn fill-btn" onclick="bookFlight()">Book a flight</a>
+                <a href="#" class="action-btn border-btn" onclick="viewSchedule()">View schedule</a>
+            </div>
+        </div>
+
+    </section>
+
+    <div id="toast" style="visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 16px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 17px;"></div>
+
+    <script>
+        function bookFlight() {
+            document.getElementById('book-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function viewSchedule() {
+            showToast("Opening Flight Schedule...");
+        }
+
+        // Toast message dikhane ka function
+        function showToast(message) {
+            var x = document.getElementById("toast");
+            x.innerText = message;
+            x.style.visibility = "visible";
+            x.style.opacity = 1;
+            
+            // 3 second baad hide
+            setTimeout(function(){ 
+                x.style.visibility = "hidden"; 
+            }, 3000);
+        }
+    </script>
+    <!-- <section class="hero-bg">
+      <div class="hero-circles"></div>
+      <div class="hero-flight-art" aria-hidden="true">
+        <div class="flight-orbit"></div>
+        <div class="flight-path path-one"></div>
+        <div class="flight-path path-two"></div>
+        <div class="flight-cloud cloud-one"></div>
+        <div class="flight-cloud cloud-two"></div>
+        <div class="flight-marker marker-start"><span>CMB</span></div>
+        <div class="flight-marker marker-end"><span>JAF</span></div>
+        <div class="flight-plane"><i class="fa-solid fa-plane"></i></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge"><span></span> 850+ Routes - 120+ Airlines</div>
+        <h1 class="hero-title">Where Will You<br><em>Fly</em> Next?</h1>
+        <p class="hero-sub">Search, compare, and book flights across your favorite routes. Best prices, quick booking, and a clean path from search to ticket.</p>
+        <div class="hero-actions">
+          <a class="hero-btn hero-btn-primary" href="#book-form">Search Flights</a>
+          <a class="hero-btn hero-btn-secondary" th:href="@{/api/v1/demo-controller/user/my-bookings}" id="hero-my-bookings-link">My Bookings</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>24/7</strong><span>Booking support</span></div>
+          <div class="hero-stat"><strong>8</strong><span>Seeded routes</span></div>
+          <div class="hero-stat"><strong>Fast</strong><span>Live flight search</span></div>
+        </div>
+      </div>
+    </section> -->
+
+
+    <section class="search-card" id="book-form">
+      <form id="bookingForm" class="booking-form">
+        <div class="field-card route-field">
+          <label for="bstart">From</label>
+          <div class="field-main">
+            <i class="fa-solid fa-plane-departure"></i>
+            <input type="text" placeholder="Type a city" id="bstart" list="startSuggestions" autocomplete="off" required>
+          </div>
+          <small>Departure city</small>
+          <datalist id="startSuggestions"></datalist>
+        </div>
+
+        <button class="swap-btn" type="button" aria-label="Swap from and to cities">
+          <i class="fa-solid fa-right-left"></i>
+        </button>
+
+        <div class="field-card route-field">
+          <label for="bEnd">To</label>
+          <div class="field-main">
+            <i class="fa-solid fa-plane-arrival"></i>
+            <input type="text" placeholder="Type a city" id="bEnd" list="endSuggestions" autocomplete="off" required>
+          </div>
+          <small>Arrival city</small>
+          <datalist id="endSuggestions"></datalist>
+        </div>
+
+        <div class="field-card">
+          <label for="numOfSeat">Travellers</label>
+          <div class="field-main">
+            <i class="fa-solid fa-users"></i>
+            <input type="number" placeholder="Passengers" id="numOfSeat" min="1" value="1" required>
+          </div>
+          <small>Seats needed</small>
+        </div>
+
+        <div class="field-card">
+          <label for="classType">Class</label>
+          <div class="field-main">
+            <i class="fa-solid fa-couch"></i>
+            <select id="classType" required>
+              <option value="ECONOMY">Economy Class</option>
+              <option value="BUSINESS">Business Class</option>
+              <option value="FIRST">First Class</option>
+            </select>
+          </div>
+          <small>Cabin preference</small>
+        </div>
+
+        <button type="button" id="btnclick" class="search-btn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Check Price
+        </button>
+        <p id="booking-status" class="booking-status" aria-live="polite"></p>
+      </form>
+    </section>
+
+
+
+
+    <!-- 1. BIG BOX START -->
+    <div class="big-box">
+        
+        <!-- 2. TITLE BOX -->
+        <div class="title-box">
+            <h2>Trending Sight Seeing Cities <span class="discount-text">50%* off</span></h2>
+        </div>
+
+        <!-- 6. MOVE BUTTONS -->
+        <button class="move-btn left-btn" id="left-btn"><i class="fas fa-chevron-left"></i></button>
+        <button class="move-btn right-btn" id="right-btn"><i class="fas fa-chevron-right"></i></button>
+
+        <!-- 3. IMAGE LINE (Slider Track) -->
+        <div class="image-line" id="track-line">
+            
+            <!-- 4. PHOTO CARD (Slide 1) -->
+            <div class="photo-card">
+                <img src="../../static/images/Jaipur.png" th:src="@{/images/Jaipur.png}" alt="Jaipurr"/>
+                <div class="city-name">
+                    <h3>Jaipur</h3>
+                </div>
+            </div>
+
+            <!-- 4. PHOTO CARD (Slide 2) -->
+            <div class="photo-card">
+                <img src="../../static/images/Singapore.png" th:src="@{/images/Singapore.png}" alt="Singapore"/>
+                <div class="city-name">
+                    <h3>Singapore</h3>
+                </div>
+            </div>
+
+            <!-- 4. PHOTO CARD (Slide 3) -->
+            <div class="photo-card">
+                <img src="../../static/images/Phuket.png" th:src="@{/images/Phuket.png}" alt="Phuket"/>
+                <div class="city-name">
+                    <h3>Phuket</h3>
+                </div>
+            </div>
+
+            <!-- 4. PHOTO CARD (Slide 4) -->
+            <div class="photo-card">
+                <img src="../../static/images/Goa.png" th:src="@{/images/Goa.png}" alt="Goa"/>
+                <div class="city-name">
+                    <h3>Goa</h3>
+                </div>
+            </div>
+
+            <!-- 4. PHOTO CARD (Slide 5) -->
+            <div class="photo-card">
+                <img src="../../static/images/Hanoi.png" th:src="@{/images/Hanoi.png}" alt="Hanoi"/>
+                <div class="city-name">
+                    <h3>Hanoi</h3>
+                </div>
+            </div>
+
+            <!-- 4. PHOTO CARD (Slide 6) -->
+            <div class="photo-card">
+                <img src="../../static/images/Baku.png" th:src="@{/images/Baku.png}" alt="Baku"/>
+                <div class="city-name">
+                    <h3>Baku</h3>
+                </div>
+            </div>
+
+             <!-- 4. PHOTO CARD (Slide 7) -->
+            <div class="photo-card">
+                <img src="../../static/images/Dubai.png" th:src="@{/images/Dubai.png}" alt="Dubai"/>
+                <div class="city-name">
+                    <h3>Dubai</h3>
+                </div>
+            </div>
+
+             <!-- 4. PHOTO CARD (Slide 8) -->
+            <div class="photo-card">
+                <img src="../../static/images/Delhi.png" th:src="@{/images/Delhi.png}" alt="Delhi"/>
+                <div class="city-name">
+                    <h3>Delhi</h3>
+                </div>
+            </div>
+
+             <!-- 4. PHOTO CARD (Slide 9) -->
+            <div class="photo-card">
+                <img src="../../static/images/Amsterdam.png" th:src="@{/images/Amsterdam.png}" alt="Amsterdam"/>
+                <div class="city-name">
+                    <h3>Amsterdam</h3>
+                </div>
+            </div>
+
+             <!-- 4. PHOTO CARD (Slide 10) -->
+            <div class="photo-card">
+                <img src="../../static/images/Agra.png" th:src="@{/images/Agra.png}" alt="Agra"/>
+                <div class="city-name">
+                    <h3>Agra</h3>
+                </div>
+            </div>
+
+            <!-- 4. PHOTO CARD (Slide 11) -->
+            <div class="photo-card">
+                <img src="../../static/images/Paris.png" th:src="@{/images/Paris.png}" alt="Paris"/>
+                <div class="city-name">
+                    <h3>Paris</h3>
+                </div>
+            </div>
+
+             <!-- 4. PHOTO CARD (Slide 12) -->
+            <div class="photo-card">
+                <img src="../../static/images/Bangkok.png" th:src="@{/images/Bangkok.png}" alt="Bangkok"/>
+                <div class="city-name">
+                    <h3>Bangkok</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // IDs ko update kiya hai JavaScript mein
+        const trackLine = document.getElementById('track-line');
+        const leftBtn = document.getElementById('left-btn');
+        const rightBtn = document.getElementById('right-btn');
+        
+        // Card width (280px) + gap (20px) = 300px total move
+        const cardWidth = 300;
+
+        // Slide Right Function
+        rightBtn.addEventListener('click', () => {
+            trackLine.scrollBy({
+                left: cardWidth,
+                behavior: 'smooth'
+            });
+        });
+
+        // Slide Left Function
+        leftBtn.addEventListener('click', () => {
+            trackLine.scrollBy({
+                left: -cardWidth,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+
+
+<div class="travel-showcase-wrapper">
+        <header class="top-navigation-bar">
+            <h2 class="main-headline-text">Popular Destinations</h2>
+          
+            <div class="slider-control-panel">
+                <button class="arrow-trigger-btn" id="btn-left" aria-label="Scroll Left">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button class="arrow-trigger-btn" id="btn-right" aria-label="Scroll Right">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- CHANGED NAME: Viewport -->
+        <div class="scroll-frame-container">
+            <!-- CHANGED NAME: Track -->
+            <div class="horizontal-scroll-strip" id="track">
+                
+                <!-- Athens -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1555993539-1732b0258235?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Athens" class="destination-photo">
+                    </div>
+                    <h3 class="city-title-label">Athens</h3>
+                </div>
+
+                <!-- London -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="London" class="destination-photo">
+                        <span class="fresh-arrival-tag">New</span>
+                    </div>
+                    <h3 class="city-title-label">London</h3>
+                </div>
+
+                <!-- Guangzhou -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Guangzhou" class="destination-photo">
+                        <span class="fresh-arrival-tag">New</span>
+                    </div>
+                    <h3 class="city-title-label">Guangzhou</h3>
+                </div>
+
+                <!-- Amsterdam -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1534351590666-13e3e96b5017?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Amsterdam" class="destination-photo">
+                    </div>
+                    <h3 class="city-title-label">Amsterdam</h3>
+                </div>
+
+                <!-- Manchester -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1515586838455-8f8f940d6853?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Manchester" class="destination-photo">
+                    </div>
+                    <h3 class="city-title-label">Manchester</h3>
+                </div>
+
+                <!-- Fujairah -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1548625149-fc4a29cf7092?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Fujairah" class="destination-photo">
+                    </div>
+                    <h3 class="city-title-label">Fujairah</h3>
+                </div>
+
+                <!-- Krabi -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Krabi" class="destination-photo">
+                    </div>
+                    <h3 class="city-title-label">Krabi</h3>
+                </div>
+
+                <!-- Seychelles -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Seychelles" class="destination-photo">
+                        <span class="fresh-arrival-tag">New</span>
+                    </div>
+                    <h3 class="city-title-label">Seychelles</h3>
+                </div>
+
+                <!-- Bikaner -->
+                <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Rampuriya_Havelis_-Bikaner_-Rajasthan_-DSC0004_%28cropped%29.jpg/330px-Rampuriya_Havelis_-Bikaner_-Rajasthan_-DSC0004_%28cropped%29.jpg" alt="Bikaner" class="destination-photo">
+                    </div>
+                    <h3 class="city-title-label">Bikaner</h3>
+                </div>
+
+                 <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://cdn.bunniktours.com.au/public/posts/images/Europe/Tbilisi%20-%201234016323-feature.jpg" alt="Georgia" class="destination-photo">
+                        <span class="fresh-arrival-tag">New</span>
+                    </div>
+                    <h3 class="city-title-label">Georgia</h3>
+                </div>
+
+                 <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://media.tacdn.com/media/attractions-splice-spp-674x446/12/37/d8/fc.jpg" alt="Doha" class="destination-photo">
+                        <span class="fresh-arrival-tag">New</span>
+                    </div>
+                    <h3 class="city-title-label">Doha</h3>
+                </div>
+
+                 <div class="travel-spot-box">
+                    <div class="image-capsule-frame">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9Ct_HnASC116rog9YlFm6boTHZyhXyif9o_zUD0hqwLaUtvs5JHXRw0Q&s=10" alt="Califonia" class="destination-photo">
+                        <span class="fresh-arrival-tag">New</span>
+                    </div>
+                    <h3 class="city-title-label">Califonia</h3>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // JS References updated to match new names
+        const track = document.getElementById('track');
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+
+        const scrollAmount = 250; 
+
+        btnLeft.addEventListener('click', () => {
+            track.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        btnRight.addEventListener('click', () => {
+            track.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        // Touch Swipe Logic
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        track.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - track.offsetLeft;
+            scrollLeft = track.scrollLeft;
+        });
+
+        track.addEventListener('touchend', () => {
+            isDown = false;
+        });
+
+        track.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.touches[0].pageX - track.offsetLeft;
+            const walk = (x - startX) * 2;
+            track.scrollLeft = scrollLeft - walk;
+        });
+
+    </script>
+
+
+    <!-- <section class="offer-section">
+      <div class="section-heading">
+        <p>Curated escapes</p>
+        <h2>Popular routes for your next break</h2>
+      </div>
+      <div class="place-grid">
+        <article class="place-card">
+          <img src="../../static/images/full-screen-image-3.jpg" th:src="@{/images/full-screen-image-3.jpg}" alt="Sigiriya">
+          <div class="place-content">
+            <span>Weekend Favorite</span>
+            <h3>Colombo to Jaffna</h3>
+            <p>Early flights, short travel windows, and easy onward planning.</p>
+          </div>
+        </article>
+        <article class="place-card">
+          <img src="../../static/images/selectpage01.jpeg" th:src="@{/images/selectpage01.jpeg}" alt="Hill country">
+          <div class="place-content">
+            <span>Hill Country</span>
+            <h3>Colombo to Kandy</h3>
+            <p>Simple route search for scenic city breaks and quick visits.</p>
+          </div>
+        </article>
+        <article class="place-card">
+          <img src="../../static/images/sb2.jpeg" th:src="@{/images/sb2.jpeg}" alt="Coastal route">
+          <div class="place-content">
+            <span>Coastal Weekend</span>
+            <h3>Colombo to Galle</h3>
+            <p>Compare available flights and continue to seat selection.</p>
+          </div>
+        </article>
+      </div>
+    </section> -->
+ 
+
+
+<div class="total">
+     <div class="header">
+  <div>
+    <h1>Trending Sight Seeing Cities <span>- 50%* off</span></h1>
+  </div>
+  <span class="view-all">View all</span>
+</div>
+<p class="subtitle">Let us inspire your next trip</p>
+ 
+<!-- Slider -->
+<div class="slider-section" id="slider">
+ 
+  <div class="card" data-pos="0">
+    <img src="../../static/images/London.png" th:src="@{/images/London.png}" alt="London"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Geneva</div>
+      <div class="price">From INR 79,302* or 107,111 miles</div>
+    </div>
+  </div>
+ 
+  <div class="card" data-pos="1">
+    <img src="../../static/images/Jaipur.png" th:src="@{/images/Jaipur.png}" alt="Jaipur"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Milan</div>
+      <div class="price">From INR 51,284* or 69,093 miles</div>
+    </div>
+  </div>
+ 
+  <div class="card" data-pos="2">
+    <img src="../../static/images/Hanoi.png" th:src="@{/images/Hanoi.png}" alt="Hanoi"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Munich</div>
+      <div class="price">From INR 64,671* or 87,123 miles</div>
+    </div>
+  </div>
+ 
+  <div class="card" data-pos="3">
+    <img src="../../static/images/Guangzhou.png" th:src="@{/images/Guangzhou.png}" alt="Guangzhou"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Atlanta</div>
+      <div class="price">From INR 1,17,812* or 1,59,095 miles</div>
+    </div>
+  </div>
+ 
+  <div class="card" data-pos="4">
+    <img src="../../static/images/Amsterdam.png" th:src="@{/images/Amsterdam.png}" alt="Amsterdam"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Amsterdam</div>
+      <div class="price">From INR 55,418* or 74,991 miles</div>
+    </div>
+  </div>
+ 
+  <!-- More cards (will be cycled in) -->
+  <div class="card" data-pos="5">
+    <img src="../../static/images/Phuket.png" th:src="@{/images/Phuket.png}" alt="Phuket"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Venice</div>
+      <div class="price">From INR 58,200* or 79,500 miles</div>
+    </div>
+  </div>
+ 
+  <div class="card" data-pos="6">
+    <img src="../../static/images/Paris.png" th:src="@{/images/Paris.png}" alt="Paris"/>
+    <div class="card-overlay"></div>
+    <div class="badge">Round trip · Economy</div>
+    <div class="card-info">
+      <div class="city">Paris</div>
+      <div class="price">From INR 62,400* or 84,200 miles</div>
+    </div>
+  </div>
+ 
+  <!-- Arrows -->
+  <div class="arrows">
+    <button class="arrow" id="prev">&#8249;</button>
+    <button class="arrow" id="next">&#8250;</button>
+  </div>
+ 
+  <!-- Dots -->
+  <div class="dots" id="dots"></div>
+</div>
+
+ 
+<p class="hint">← → arrow keys or click arrows to navigate</p>
+
+ 
+<script>
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const total = cards.length;
+  // positions: 0=far-left, 1=left, 2=center, 3=right, 4=far-right, 5+=hidden
+  // We track which card is "center" index
+  let centerIndex = 2;
+ 
+  const dotsEl = document.getElementById('dots');
+ 
+  // Build dots (one per card)
+  cards.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === centerIndex ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+ 
+  function updateDots() {
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === centerIndex);
+    });
+  }
+ 
+  function assignPositions() {
+    cards.forEach((card, i) => {
+      // relative position from center
+      let rel = i - centerIndex;
+      // wrap around
+      if (rel < -2) rel += total;
+      if (rel > 2) rel -= total;
+ 
+      if (rel >= -2 && rel <= 2) {
+        card.setAttribute('data-pos', rel + 2); // map -2..2 → 0..4
+        card.style.opacity = '';
+        card.style.pointerEvents = '';
+      } else {
+        // hide cards too far from center
+        card.setAttribute('data-pos', '5');
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+      }
+    });
+    updateDots();
+  }
+ 
+  function goTo(index) {
+    centerIndex = ((index % total) + total) % total;
+    assignPositions();
+  }
+ 
+  document.getElementById('prev').onclick = () => goTo(centerIndex - 1);
+  document.getElementById('next').onclick = () => goTo(centerIndex + 1);
+ 
+  // Click on side cards to focus them
+  cards.forEach((card, i) => {
+    card.addEventListener('click', () => {
+      const pos = parseInt(card.getAttribute('data-pos'));
+      if (pos !== 2) goTo(i);
+    });
+  });
+ 
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') goTo(centerIndex - 1);
+    if (e.key === 'ArrowRight') goTo(centerIndex + 1);
+  });
+ 
+  assignPositions();
+</script>
+
+
+<div class="layout">
+ <div class="promo-grid-wrapper">
+        
+        <!-- Card 1: Top Left - Airport -->
+        <div class="image-card-item box-airport">
+            <img src="https://www.shutterstock.com/image-photo/flights-online-booking-reservation-woman-600nw-1599565588.jpg" th:src="@{/images/Amsterdam.png}" alt="Travel Smarter">
+            <div class="text-overlay-section">
+                <h3>Travel Smarter<br>ZipAhead</h3>
+                <p>Seamless airport services.</p>
+            </div>
+        </div>
+
+        <!-- Card 2: Top Right - A350 (TALL + WIDE) -->
+        <div class="image-card-item box-a350-tall">
+            <img src="../../static/images/Plane.png" th:src="@{/images/Plane.png}" alt="Global Travel A350">
+            <div class="text-overlay-section">
+                <h3>Global Travel,<br>Reimagined A350</h3>
+                <p>Step into a new age of premium air travel aboard the Air India A350.</p>
+            </div>
+        </div>
+
+        <!-- Card 3: Bottom Left - Economy -->
+        <div class="image-card-item box-economy">
+            <img src="https://www.shutterstock.com/image-photo/young-asian-woman-holding-credit-260nw-2434334113.jpg" th:src="@{/images/Amsterdam.png}" alt="Premium Economy">
+            <div class="text-overlay-section">
+                <h3>Comfort in Skies<br>Premium Economy</h3>
+                <p>Relax and enjoy your flight.</p>
+            </div>
+        </div>
+
+        <!-- Card 4: Bottom Right - Shopping (Tall) -->
+        <div class="image-card-item box-shopping-tall">
+            <img src="https://thumbs.dreamstime.com/b/asian-woman-sitting-seat-airplane-looking-out-window-going-trip-vacation-travel-concept-capture-allure-430715404.jpg" alt="Shop on the Go">
+            <div class="text-overlay-section">
+                <h3>Shop on the Go<br>Air India E-Store</h3>
+                <p>Duty-free shopping at your fingertips.</p>
+            </div>
+        </div>
+    </div>
+   
+
+
+
+
+     <!-- CHANGED NAME: .plan-trip-grid -> .trip-layout-wrapper -->
+    <div class="trip-layout-wrapper">
+        
+       
+        <div class="info-card-box box-baggage">
+            <img src="../../static/images/Baggage.png" th:src="@{/images/Baggage.png}" alt="Baggage Essentials">
+            <div class="info-content">
+                <h3>Baggage<br>Essentials</h3>
+                <p>Know your allowance.</p>
+            </div>
+        </div>
+
+       
+        <div class="info-card-box box-alliance">
+            <img src="../../static/images/Ticket.png" th:src="@{/images/Ticket.png}" alt="Star Alliance">
+            <div class="info-content">
+                <h3>Star<br>Alliance</h3>
+                <p>Connect globally.</p>
+            </div>
+        </div>
+
+        <div class="info-card-box box-contact">
+            <img src="../../static/images/ContactUs.png" th:src="@{/images/ContactUs.png}" alt="Contact Us">
+            <div class="info-content">
+                <h3>Contact<br>Us</h3>
+                <p>Support 24/7.</p>
+            </div>
+        </div>
+
+    </div>
+     </div>
+
+
+
+
+ <section class="feedback-container">
+        <div class="contain">
+            <p class="section-text">PASSENGERS LOVE US</p>
+            <h2 class="main-heading">Real Stories, Real Journeys</h2>
+            <p class="sub-heading">Don't take our word for it – hear from the travelers who fly with us every day.</p>
+        </div>
+
+        <!-- Class updated to .scrolling-window -->
+        <div class="scrolling-window">
+            <!-- Class updated to .moving-belt, ID updated to trackElement -->
+            <div class="moving-belt" id="trackElement">
+                
+                <!-- Cards Start Here -->
+                
+                <!-- Card 1: .traveler-card -->
+                <div class="traveler-card">
+                    <div class="rating-icons">★★★★★</div>
+                    <p class="comment-body">"SkyLine has completely changed the way I travel for work. The business class service is impeccable, and their punctuality is unmatched."</p>
+                    <div class="passenger-details">
+                        <img src="https://picsum.photos/seed/priya/100/100" alt="Priya Rao" class="profile-pic">
+                        <div class="author-details">
+                            <h4>Priya Rao</h4>
+                            <span>Business Traveler</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="traveler-card">
+                    <div class="rating-icons">★★★★★</div>
+                    <p class="comment-body">"After flying with 12 different airlines, I can confidently say SkyLine is the best. Their loyalty program is genuinely rewarding."</p>
+                    <div class="passenger-details">
+                        <img src="https://picsum.photos/seed/arjun/100/100" alt="Arjun Kumar" class="profile-pic">
+                        <div class="author-details">
+                            <h4>Arjun Kumar</h4>
+                            <span>Frequent Flyer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="traveler-card">
+                    <div class="rating-icons">★★★★★</div>
+                    <p class="comment-body">"The in-flight entertainment and the comfort of the seats made my long haul flight feel like a breeze. Highly recommended!"</p>
+                    <div class="passenger-details">
+                        <img src="https://picsum.photos/seed/sarah/100/100" alt="Sarah Jenkins" class="profile-pic">
+                        <div class="author-details">
+                            <h4>Sarah Jenkins</h4>
+                            <span>Vacationer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="traveler-card">
+                    <div class="rating-icons">★★★★★</div>
+                    <p class="comment-body">"Customer support helped me rebook instantly during a storm. SkyLine cares about its passengers unlike any other airline."</p>
+                    <div class="passenger-details">
+                        <img src="https://picsum.photos/seed/mike/100/100" alt="Mike Ross" class="profile-pic">
+                        <div class="author-details">
+                            <h4>Mike Ross</h4>
+                            <span>Regular Commuter</span>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Card 5 -->
+                 <div class="traveler-card">
+                    <div class="rating-icons">★★★★★</div>
+                    <p class="comment-body">"The food was delicious and the crew was so attentive. It felt like a 5-star hotel experience in the sky."</p>
+                    <div class="passenger-details">
+                        <img src="https://picsum.photos/seed/emily/100/100" alt="Emily Chen" class="profile-pic">
+                        <div class="author-details">
+                            <h4>Emily Chen</h4>
+                            <span>Food Blogger</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cards End Here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // JS ko bhi update kiya hai naye ID 'trackElement' ke liye
+            const track = document.getElementById('trackElement');
+            
+            // Content ko clone karke loop banate hain
+            const originalContent = track.innerHTML;
+            
+            // Content ko 3 baar duplicate kar rahe hain taaki loop kharab na ho
+            track.innerHTML = originalContent + originalContent + originalContent;
+        });
+    </script>
+
+
+
+
+<section id="features">
+  <div class="reveal">
+    <span class="section-label">What We Offer</span>
+    <h2 class="section-title">Everything You Need for Perfect Travel</h2>
+    <p class="section-sub">From booking to boarding, we handle every detail so you can focus on the journey ahead.</p>
+  </div>
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-bolt"></i></div>
+      <h3>Easy Booking</h3>
+      <p>Book flights in under 3 minutes with our streamlined interface and intelligent fare finder.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-satellite-dish"></i></div>
+      <h3>Real-Time Status</h3>
+      <p>Live flight tracking, gate updates, and instant delay notifications sent to your device.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-shield-halved"></i></div>
+      <h3>Secure Payments</h3>
+      <p>256-bit SSL encryption with support for 50+ payment methods globally. Your data, protected.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-headset"></i></div>
+      <h3>24/7 Support</h3>
+      <p>Round-the-clock assistance via chat, call, or email in 30+ languages. We never sleep.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-suitcase-rolling"></i></div>
+      <h3>Baggage Tracking</h3>
+      <p>Track your luggage from check-in to carousel with our real-time RFID bag tracker.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-award"></i></div>
+      <h3>Loyalty Rewards</h3>
+      <p>Earn SkyMiles on every flight. Redeem for upgrades, lounges, and free tickets worldwide.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-utensils"></i></div>
+      <h3>Premium Dining</h3>
+      <p>Chef-curated meals on all routes. Customize your in-flight dining up to 24 hours before departure.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa fa-wifi"></i></div>
+      <h3>In-Flight Wi-Fi</h3>
+      <p>High-speed satellite internet on all flights. Stay connected at 40,000 feet above the clouds.</p>
+    </div>
+  </div>
+</section>
+
+
+
+ <div class="main-container">
+        
+        <!-- Left Div: Dark Blue Highlight -->
+        <div class="left-card">
+            <i class="fas fa-plane-departure"></i>
+            <h2>2,200+</h2>
+            <p>Daily</p> 
+            <p>Flights</p>
+        </div>
+
+        <!-- Right Divs: Grid of 4 -->
+        <div class="right-grid">
+            
+            <!-- Card 1 -->
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="text-box">
+                    <h3>96</h3>
+                    <p>Domestic</p>
+                    <p>Destinations</p> 
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="text-box">
+                    <h3>45</h3>
+                    <p>International</p>
+                    <p>Destinations</p> 
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="text-box">
+                    <h3>850 Mn+</h3>
+                    <p>Happy </p>
+                    <p>Customers</p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="info-card">
+                <div class="icon-box">
+                    <i class="fas fa-fighter-jet"></i>
+                </div>
+                <div class="text-box">
+                    <h3>400+</h3>
+                    <p>Fleet </p>
+                    <p>Strong</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+<footer class="sky-main-footer">
+  <div class="sky-bg-blob sky-blob-1"></div>
+  <div class="sky-bg-blob sky-blob-2"></div>
+  <div class="sky-grid">
+    <div class="sky-col sky-brand">
+      <a class="footer-logo" th:href="@{/api/v1/auth/index}"><i class="fa-solid fa-plane"></i> WingWay</a>
+      <p>Search, compare, and book JKshian flights with a smooth reservation flow from route search to confirmation.</p>
+    </div>
+    <div class="sky-col">
+      <h4>Explore</h4>
+      <ul class="sky-links">
+        <li><a th:href="@{/api/v1/auth/index}">Search Flights</a></li>
+        <li><a href="#book-form">Booking</a></li>
+        <li><a th:href="@{/api/v1/demo-controller/user/my-bookings}">Dashboard</a></li>
+        <li><a th:href="@{/admin}">Admin</a></li>
+      </ul>
+    </div>
+    <div class="sky-col">
+      <h4>Support</h4>
+      <ul class="sky-links">
+        <li><a th:href="@{/api/v1/auth/contact}">Contact</a></li>
+        <li><a th:href="@{/api/v1/auth/login}">Sign In</a></li>
+        <li><a th:href="@{/api/v1/auth/registration}">Create Account</a></li>
+      </ul>
+    </div>
+    <div class="sky-col sky-news-card">
+      <h4>Travel Notes</h4>
+      <p>Get route updates and booking reminders for your next flight.</p>
+      <div class="sky-input-group">
+        <input class="sky-inp" type="email" placeholder="Email address">
+        <button class="sky-btn" type="button" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="sky-bottom">
+    <p class="sky-copy">Copyright 2026 - Wing Way</p>
+    <div class="sky-socials">
+      <a class="sky-social" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      <a class="sky-social" href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="sky-social" href="https://www.instagram.com/_harshikaaa_/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
+ </main>
+</div>
+
+<script src="../../static/js/auth.js" th:src="@{/js/auth.js}"></script>
+<script>
+  async function loadSuggestions(query, listId) {
+    if (!query || query.length < 1) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/v1/auth/flights/suggestions?query=${encodeURIComponent(query)}`);
+      const suggestions = await response.json();
+      const list = document.getElementById(listId);
+      list.innerHTML = suggestions.map(item => `<option value="${item.city}"></option>`).join('');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function checkPrice() {
+    const status = document.getElementById('booking-status');
+    const formData = {
+      bstart: document.getElementById('bstart').value.trim(),
+      bend: document.getElementById('bEnd').value.trim(),
+      bnumofseat: Number(document.getElementById('numOfSeat').value),
+      classType: document.getElementById('classType').value
+    };
+
+    if (!formData.bstart || !formData.bend || !formData.bnumofseat) {
+      document.getElementById('book-form').scrollIntoView({ behavior: 'smooth' });
+      status.textContent = 'Please fill all booking details.';
+      return;
+    }
+
+    status.textContent = 'Finding available flights...';
+    document.getElementById('book-form').scrollIntoView({ behavior: 'smooth' });
+
+    try {
+      const response = await fetch('/api/v1/auth/flights/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const flights = await response.json();
+      if (!response.ok || !flights.length) {
+        status.textContent = 'No flights found for this route. Try a saved city like Colombo, Jaffna, Kandy, Galle, or Matara.';
+        return;
+      }
+
+      localStorage.setItem('latestBooking', JSON.stringify(formData));
+      localStorage.setItem('latestFlightResults', JSON.stringify(flights));
+      localStorage.removeItem('selectedFlight');
+      localStorage.removeItem('selectedSeats');
+      localStorage.removeItem('bookingConfirmation');
+      window.location.href = '/api/v1/auth/select';
+    } catch (error) {
+      status.textContent = 'Unable to search flights right now.';
+    }
+  }
+
+  function requireBookingsAuth(event) {
+    if (!window.authUtils?.requireAuth('/api/v1/auth/login')) {
+      event.preventDefault();
+    }
+  }
+
+  document.getElementById('btnclick').addEventListener('click', function (event) {
+    event.preventDefault();
+    checkPrice();
+  });
+
+  document.getElementById('my-bookings-link')?.addEventListener('click', requireBookingsAuth);
+  document.getElementById('hero-my-bookings-link')?.addEventListener('click', requireBookingsAuth);
+
+  if (window.authUtils?.syncAuthCookie()) {
+    document.querySelectorAll('.auth-login-link').forEach(link => {
+      link.hidden = true;
+    });
+  }
+
+  const profileButton = document.getElementById('profileMenuButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+
+  function closeProfileMenu() {
+    profileDropdown?.classList.remove('show');
+    profileButton?.setAttribute('aria-expanded', 'false');
+  }
+
+  profileButton?.addEventListener('click', event => {
+    event.stopPropagation();
+    const isOpen = profileDropdown.classList.toggle('show');
+    profileButton.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.profile-menu')) {
+      closeProfileMenu();
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      closeProfileMenu();
+    }
+  });
+
+  document.querySelector('.swap-btn').addEventListener('click', () => {
+    const start = document.getElementById('bstart');
+    const end = document.getElementById('bEnd');
+    const currentStart = start.value;
+    start.value = end.value;
+    end.value = currentStart;
+  });
+
+  document.getElementById('bstart').addEventListener('input', event => loadSuggestions(event.target.value, 'startSuggestions'));
+  document.getElementById('bEnd').addEventListener('input', event => loadSuggestions(event.target.value, 'endSuggestions'));
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f2f7f2 0%, #d5e7d4 100%);
+  color: #13331c;
+}
+
+.search-shell {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(17, 73, 39, 0.16);
+  padding: 32px;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 12px;
+  color: #2d7d46;
+  margin-bottom: 8px;
+}
+
+.results-header h1 {
+  margin: 0 0 10px;
+  font-size: 36px;
+}
+
+.back-link {
+  color: #2d7d46;
+  font-weight: 600;
+}
+
+.results-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.flight-card {
+  display: block;
+  border: 1px solid #d6e4d8;
+  border-radius: 22px;
+  padding: 22px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.flight-card input {
+  margin-bottom: 16px;
+}
+
+.flight-card-top,
+.flight-timing,
+.flight-meta,
+.results-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.airline {
+  margin: 0;
+  color: #2d7d46;
+  font-weight: 700;
+}
+
+.flight-card h3 {
+  margin: 6px 0;
+  font-size: 24px;
+}
+
+.aircraft,
+.flight-meta span,
+#routeSummary,
+#flight-status {
+  color: #547161;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #12311c;
+}
+
+.flight-timing strong {
+  display: block;
+  font-size: 24px;
+}
+
+.flight-timing span {
+  display: block;
+  color: #547161;
+}
+
+.duration {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #eff8f0;
+}
+
+.results-actions {
+  margin-top: 24px;
+}
+
+.buttonsub {
+  background: #1f8a47;
+  border: none;
+  border-radius: 999px;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.buttonsub:hover {
+  background: #146434;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 18px;
+  }
+
+  .results-header,
+  .flight-card-top,
+  .flight-timing,
+  .flight-meta,
+  .results-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

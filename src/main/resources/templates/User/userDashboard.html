@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WingWay User Dashboard</title>
+  <meta name="description" content="Premium airline passenger dashboard for bookings, flights, rewards, meals, baggage, and support.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/userDashboard.css(v=1)}" href="../../static/css/userDashboard.css">
+</head>
+<body>
+  <div class="dashboard-shell">
+    <aside class="sidebar" id="sidebar" aria-label="User dashboard navigation">
+      <a class="brand" th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index" aria-label="WingWay home">
+        <span class="brand-mark"><i class="fa-solid fa-plane-departure"></i></span>
+        <span>
+          <strong>WingWay</strong>
+          <small>Skyline Club</small>
+        </span>
+      </a>
+
+      <nav class="sidebar-nav">
+        <a class="active" href="#overview"><i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span></a>
+        <a href="#upcoming"><i class="fa-solid fa-plane"></i><span>My Flights</span></a>
+        <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings"><i class="fa-solid fa-clock-rotate-left"></i><span>Booking History</span></a>
+        <a href="#boarding"><i class="fa-solid fa-ticket"></i><span>Boarding Pass</span></a>
+        <a href="#baggage"><i class="fa-solid fa-suitcase-rolling"></i><span>Baggage</span></a>
+        <a href="#meal"><i class="fa-solid fa-utensils"></i><span>Meal Selection</span></a>
+        <a href="#notifications"><i class="fa-regular fa-bell"></i><span>Notifications</span></a>
+        <a th:href="@{/api/v1/auth/contact}" href="/api/v1/auth/contact"><i class="fa-solid fa-headset"></i><span>Support</span></a>
+        <a href="#settings"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+
+      <a class="logout-link" th:href="@{/api/v1/auth/logout}" href="/api/v1/auth/logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+      </a>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <main class="dashboard-main">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Open menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="welcome-copy">
+          <span>Welcome back</span>
+          <h1>Good to see you, <b id="travelerName">Aarav</b></h1>
+        </div>
+
+        <form class="global-search" role="search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="search" placeholder="Search flights, bookings, cities" aria-label="Search flights, bookings, cities">
+        </form>
+
+        <div class="topbar-actions">
+          <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <button class="icon-button notification-button" type="button" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span></span>
+          </button>
+          <div class="profile-menu">
+            <button class="profile-chip" id="profileToggle" type="button" aria-expanded="false">
+              <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=160&q=80" alt="User profile">
+              <span>Aarav M.</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <a href="#profile">View profile</a>
+              <a href="#settings">Account settings</a>
+              <a th:href="@{/api/v1/auth/logout}" href="/api/v1/auth/logout">Sign out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="hero-panel glass-card" id="overview">
+        <div>
+          <span class="eyebrow">Premium travel control center</span>
+          <h2>Your next journey is already taking shape.</h2>
+          <p>Track reservations, rewards, baggage, meals, destination weather, and boarding status from one polished passenger workspace.</p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#book-form"><i class="fa-solid fa-magnifying-glass"></i> Search Flights</a>
+            <a class="secondary-action" th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings"><i class="fa-solid fa-briefcase"></i> My Bookings</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Airline dashboard route preview">
+          <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80" alt="Airplane wing above clouds">
+          <div class="floating-route">
+            <span>CMB</span>
+            <i class="fa-solid fa-plane"></i>
+            <span>DXB</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="profile-card glass-card" id="profile">
+          <div class="profile-cover"></div>
+          <div class="profile-body">
+            <img class="profile-avatar" src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=240&q=80" alt="Traveler avatar">
+            <div class="profile-heading">
+              <div>
+                <h2>Aarav Mehta</h2>
+                <p>aarav.mehta@example.com</p>
+              </div>
+              <span class="tier-badge"><i class="fa-solid fa-crown"></i> Gold</span>
+            </div>
+            <div class="profile-details">
+              <span><i class="fa-solid fa-phone"></i> +94 77 456 8890</span>
+              <span><i class="fa-solid fa-passport"></i> P834-29-778</span>
+              <span><i class="fa-solid fa-route"></i> 68,420 miles earned</span>
+            </div>
+            <button class="outline-action" type="button"><i class="fa-regular fa-pen-to-square"></i> Edit Profile</button>
+          </div>
+        </article>
+
+        <article class="reward-card glass-card">
+          <div class="section-title">
+            <div>
+              <span class="eyebrow">Skyline Rewards</span>
+              <h3>Reward Progress</h3>
+            </div>
+            <strong>82%</strong>
+          </div>
+          <div class="reward-ring" style="--progress: 82">
+            <span>8,240</span>
+            <small>points</small>
+          </div>
+          <p>1,760 points until Platinum priority upgrades.</p>
+        </article>
+      </section>
+
+      <section class="stats-grid" aria-label="Travel statistics">
+        <article class="stat-card glass-card">
+          <i class="fa-solid fa-plane-circle-check"></i>
+          <span>Flights Booked</span>
+          <strong>24</strong>
+          <div class="mini-bars"><b></b><b></b><b></b><b></b></div>
+        </article>
+        <article class="stat-card glass-card">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Upcoming Flights</span>
+          <strong>03</strong>
+          <div class="mini-line"></div>
+        </article>
+        <article class="stat-card glass-card">
+          <i class="fa-solid fa-ban"></i>
+          <span>Cancelled Flights</span>
+          <strong>01</strong>
+          <div class="mini-progress"><span style="width: 16%"></span></div>
+        </article>
+        <article class="stat-card glass-card">
+          <i class="fa-solid fa-earth-asia"></i>
+          <span>Total Miles</span>
+          <strong>68.4K</strong>
+          <div class="mini-bars blue"><b></b><b></b><b></b><b></b></div>
+        </article>
+        <article class="stat-card glass-card">
+          <i class="fa-solid fa-gem"></i>
+          <span>Reward Points</span>
+          <strong>8,240</strong>
+          <div class="mini-progress"><span style="width: 82%"></span></div>
+        </article>
+        <article class="stat-card glass-card">
+          <i class="fa-solid fa-wallet"></i>
+          <span>Total Spending</span>
+          <strong>$12.8K</strong>
+          <div class="mini-line calm"></div>
+        </article>
+      </section>
+
+      <section class="content-layout">
+        <div class="primary-column">
+          <section class="booking-panel glass-card" id="book-form">
+            <div class="section-title">
+              <div>
+                <span class="eyebrow">Flight Booking</span>
+                <h2>Plan a premium route</h2>
+              </div>
+              <span class="plane-chip"><i class="fa-solid fa-paper-plane"></i> Smart fares</span>
+            </div>
+
+            <form class="booking-form">
+              <label>
+                <span>From</span>
+                <input id="bstart" name="bstart" list="startSuggestions" type="text" placeholder="Colombo" autocomplete="off" required>
+                <datalist id="startSuggestions"></datalist>
+              </label>
+              <button class="swap-button" type="button" aria-label="Swap route">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+              </button>
+              <label>
+                <span>To</span>
+                <input id="bEnd" name="bend" list="endSuggestions" type="text" placeholder="Dubai" autocomplete="off" required>
+                <datalist id="endSuggestions"></datalist>
+              </label>
+              <label>
+                <span>Departure Date</span>
+                <input type="date" id="departureDate" aria-label="Departure date">
+              </label>
+              <label>
+                <span>Return Date</span>
+                <input type="date" id="returnDate" aria-label="Return date">
+              </label>
+              <label>
+                <span>Travelers</span>
+                <input id="numOfSeat" type="number" min="1" max="9" value="1" required>
+              </label>
+              <label>
+                <span>Class Selection</span>
+                <select id="classType">
+                  <option value="Economy">Economy</option>
+                  <option value="Business">Business</option>
+                  <option value="First">First Class</option>
+                </select>
+              </label>
+              <button class="search-flight-button" id="btnclick" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search Flights
+              </button>
+            </form>
+            <p class="booking-status" id="booking-status" role="status" aria-live="polite"></p>
+          </section>
+
+          <section class="upcoming-section" id="upcoming">
+            <div class="section-title">
+              <div>
+                <span class="eyebrow">Upcoming Flights</span>
+                <h2>Boarding soon</h2>
+              </div>
+              <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings">View all</a>
+            </div>
+
+            <div class="flight-card glass-card">
+              <div class="airline-logo"><i class="fa-solid fa-plane-up"></i></div>
+              <div>
+                <span>WingWay Air</span>
+                <h3>WW 218</h3>
+              </div>
+              <div class="flight-route">
+                <strong>Colombo</strong>
+                <span>08:45</span>
+              </div>
+              <div class="flight-path">
+                <span></span>
+                <i class="fa-solid fa-plane"></i>
+                <span></span>
+                <small>4h 25m</small>
+              </div>
+              <div class="flight-route">
+                <strong>Dubai</strong>
+                <span>11:40</span>
+              </div>
+              <div class="flight-meta">
+                <span>Gate B12</span>
+                <span>Seat 4A</span>
+                <b>On Time</b>
+              </div>
+              <button class="download-button" type="button"><i class="fa-solid fa-download"></i> Ticket</button>
+            </div>
+
+            <div class="flight-card glass-card">
+              <div class="airline-logo alt"><i class="fa-solid fa-star"></i></div>
+              <div>
+                <span>Skyline Connect</span>
+                <h3>SK 704</h3>
+              </div>
+              <div class="flight-route">
+                <strong>Dubai</strong>
+                <span>22:10</span>
+              </div>
+              <div class="flight-path delayed">
+                <span></span>
+                <i class="fa-solid fa-plane"></i>
+                <span></span>
+                <small>7h 15m</small>
+              </div>
+              <div class="flight-route">
+                <strong>London</strong>
+                <span>05:25</span>
+              </div>
+              <div class="flight-meta">
+                <span>Gate C04</span>
+                <span>Seat 2C</span>
+                <b class="warning">Boarding</b>
+              </div>
+              <button class="download-button" type="button"><i class="fa-solid fa-download"></i> Ticket</button>
+            </div>
+          </section>
+
+          <section class="split-section">
+            <article class="timeline-card glass-card" id="notifications">
+              <div class="section-title">
+                <div>
+                  <span class="eyebrow">Recent Activity</span>
+                  <h3>Timeline</h3>
+                </div>
+              </div>
+              <ol class="activity-timeline">
+                <li><b>Seat upgraded</b><span>Business class confirmed for WW 218.</span></li>
+                <li><b>Meal preference saved</b><span>Low-sodium Asian vegetarian menu.</span></li>
+                <li><b>Baggage added</b><span>Extra 10 kg allowance purchased.</span></li>
+              </ol>
+            </article>
+
+            <article class="tracker-card glass-card" id="boarding">
+              <div class="section-title">
+                <div>
+                  <span class="eyebrow">Flight Status</span>
+                  <h3>Tracker</h3>
+                </div>
+              </div>
+              <div class="status-track">
+                <span class="done">Booked</span>
+                <span class="done">Checked In</span>
+                <span class="active">Boarding</span>
+                <span>Departed</span>
+              </div>
+            </article>
+          </section>
+        </div>
+
+        <aside class="insights-column">
+          <article class="weather-card glass-card">
+            <div>
+              <span class="eyebrow">Destination Weather</span>
+              <h3>Dubai</h3>
+              <p>Clear sky, light wind</p>
+            </div>
+            <strong>31°C</strong>
+            <i class="fa-solid fa-sun"></i>
+          </article>
+
+          <article class="reminder-card glass-card">
+            <div class="section-title">
+              <div>
+                <span class="eyebrow">Travel Reminders</span>
+                <h3>Before you fly</h3>
+              </div>
+            </div>
+            <ul class="check-list">
+              <li><i class="fa-solid fa-check"></i> Online check-in opens 24h before departure</li>
+              <li><i class="fa-solid fa-check"></i> Passport validity verified</li>
+              <li><i class="fa-solid fa-circle"></i> Add lounge access by 6 PM</li>
+            </ul>
+          </article>
+
+          <article class="destination-card glass-card">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80" alt="Dubai skyline">
+            <div>
+              <span class="eyebrow">Recommended</span>
+              <h3>Dubai Marina Escape</h3>
+              <p>Save 18% on premium weekend fares.</p>
+            </div>
+          </article>
+
+          <article class="offer-card glass-card" id="settings">
+            <span>Special Offer</span>
+            <h3>Priority lounge pass</h3>
+            <p>Unlock two guest entries with your Gold tier this month.</p>
+            <button type="button">Claim Offer</button>
+          </article>
+
+          <article class="meal-card glass-card" id="meal">
+            <i class="fa-solid fa-bowl-food"></i>
+            <div>
+              <span>Meal Preference</span>
+              <strong>Asian Vegetarian</strong>
+              <p>Updated for all upcoming flights.</p>
+            </div>
+          </article>
+
+          <article class="baggage-card glass-card" id="baggage">
+            <div>
+              <span>Baggage Allowance</span>
+              <strong>30 kg checked + 7 kg cabin</strong>
+            </div>
+            <div class="baggage-meter"><span></span></div>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script src="../../static/js/auth.js" th:src="@{/js/auth.js}"></script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const menuToggle = document.getElementById('menuToggle');
+    const themeToggle = document.getElementById('themeToggle');
+    const profileToggle = document.getElementById('profileToggle');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const bookingStatus = document.getElementById('booking-status');
+    const bookingForm = document.querySelector('.booking-form');
+    const searchFlightButton = document.getElementById('btnclick');
+    const departureDate = document.getElementById('departureDate');
+    const returnDate = document.getElementById('returnDate');
+
+    const now = new Date();
+    const today = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0')
+    ].join('-');
+    departureDate.min = today;
+    returnDate.min = today;
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      sidebarBackdrop.classList.remove('show');
+    }
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.add('open');
+      sidebarBackdrop.classList.add('show');
+    });
+
+    sidebarBackdrop.addEventListener('click', closeSidebar);
+
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('.sidebar-nav a').forEach(item => item.classList.remove('active'));
+        link.classList.add('active');
+        closeSidebar();
+      });
+    });
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      themeToggle.setAttribute('aria-pressed', String(document.body.classList.contains('light-mode')));
+      themeToggle.innerHTML = document.body.classList.contains('light-mode')
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+    });
+
+    profileToggle.addEventListener('click', () => {
+      const isOpen = profileDropdown.classList.toggle('show');
+      profileToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.profile-menu')) {
+        profileDropdown.classList.remove('show');
+        profileToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeSidebar();
+        profileDropdown.classList.remove('show');
+        profileToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    departureDate.addEventListener('change', () => {
+      returnDate.min = departureDate.value || today;
+      if (returnDate.value && returnDate.value < returnDate.min) {
+        returnDate.value = returnDate.min;
+      }
+    });
+
+    async function loadSuggestions(query, listId) {
+      const list = document.getElementById(listId);
+      if (!query || query.length < 1) {
+        list.replaceChildren();
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/v1/auth/flights/suggestions?query=${encodeURIComponent(query)}`);
+        const suggestions = await response.json();
+        list.replaceChildren();
+        (Array.isArray(suggestions) ? suggestions : []).forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.city || '';
+          list.appendChild(option);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function checkPrice() {
+      const formData = {
+        bstart: document.getElementById('bstart').value.trim(),
+        bend: document.getElementById('bEnd').value.trim(),
+        bnumofseat: Number(document.getElementById('numOfSeat').value),
+        classType: document.getElementById('classType').value
+      };
+
+      if (!formData.bstart || !formData.bend || !formData.bnumofseat) {
+        bookingStatus.classList.remove('loading');
+        bookingStatus.textContent = 'Please fill all booking details.';
+        document.getElementById('book-form').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      bookingStatus.classList.add('loading');
+      bookingStatus.textContent = 'Finding available flights...';
+      searchFlightButton.disabled = true;
+
+      try {
+        const response = await fetch('/api/v1/auth/flights/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const flights = await response.json();
+        if (!response.ok || !flights.length) {
+          bookingStatus.classList.remove('loading');
+          bookingStatus.textContent = 'No flights found for this route. Try Colombo, Jaffna, Kandy, Galle, or Matara.';
+          return;
+        }
+
+        localStorage.setItem('latestBooking', JSON.stringify(formData));
+        localStorage.setItem('latestFlightResults', JSON.stringify(flights));
+        localStorage.removeItem('selectedFlight');
+        localStorage.removeItem('selectedSeats');
+        localStorage.removeItem('bookingConfirmation');
+        window.location.href = '/api/v1/auth/select';
+      } catch (error) {
+        bookingStatus.classList.remove('loading');
+        bookingStatus.textContent = 'Unable to search flights right now.';
+      } finally {
+        searchFlightButton.disabled = false;
+      }
+    }
+
+    bookingForm.addEventListener('submit', event => {
+      event.preventDefault();
+      checkPrice();
+    });
+
+    document.querySelector('.swap-button').addEventListener('click', () => {
+      const start = document.getElementById('bstart');
+      const end = document.getElementById('bEnd');
+      const currentStart = start.value;
+      start.value = end.value;
+      end.value = currentStart;
+    });
+
+    document.getElementById('bstart').addEventListener('input', event => loadSuggestions(event.target.value, 'startSuggestions'));
+    document.getElementById('bEnd').addEventListener('input', event => loadSuggestions(event.target.value, 'endSuggestions'));
+  </script>
+</body>
+</html>

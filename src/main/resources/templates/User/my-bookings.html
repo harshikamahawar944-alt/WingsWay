@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WingWay | My Bookings</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/css/my-bookings.css(v=1)}" href="../../static/css/my-bookings.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="booking-shell">
+  <aside class="booking-sidebar">
+    <a class="booking-brand" th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index">
+      <span><i class="fa-solid fa-plane-departure"></i></span>
+      <strong>WingWay</strong>
+    </a>
+
+    <nav class="booking-nav" aria-label="Passenger navigation">
+      <a th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index"><i class="fa-solid fa-house"></i><span>Home</span></a>
+      <a class="active" th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings"><i class="fa-solid fa-briefcase"></i><span>My Bookings</span></a>
+      <a th:href="@{/api/v1/auth/index#book-form}" href="/api/v1/auth/index#book-form"><i class="fa-solid fa-magnifying-glass-location"></i><span>Search Flights</span></a>
+      <a th:href="@{/api/v1/auth/contact}" href="/api/v1/auth/contact"><i class="fa-solid fa-headset"></i><span>Support</span></a>
+    </nav>
+
+    <div class="sidebar-note">
+      <span>Database synced</span>
+      <p>Your trips are loaded from confirmed reservations linked to your account.</p>
+    </div>
+  </aside>
+
+  <main class="booking-main">
+    <header class="booking-topbar">
+      <div>
+        <span class="eyebrow">Passenger control center</span>
+        <h1>My Bookings</h1>
+      </div>
+      <div class="topbar-actions">
+        <label class="booking-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="bookingSearch" type="search" placeholder="Search route, flight, airline, seat">
+        </label>
+        <a class="new-trip-button" th:href="@{/api/v1/auth/index#book-form}" href="/api/v1/auth/index#book-form">
+          <i class="fa-solid fa-plus"></i>
+          Book Flight
+        </a>
+      </div>
+    </header>
+
+    <section class="hero-panel">
+      <div>
+        <span class="eyebrow">Travel overview</span>
+        <h2>All reservations in one clean airline dashboard.</h2>
+        <p>Review confirmed flights, seat details, aircraft, fare totals, and your complete booking history from the database.</p>
+      </div>
+      <div class="hero-stats">
+        <article>
+          <i class="fa-solid fa-ticket"></i>
+          <span>Total bookings</span>
+          <strong th:text="${#lists.size(bookings)}">0</strong>
+        </article>
+        <article>
+          <i class="fa-solid fa-chair"></i>
+          <span>Seats reserved</span>
+          <strong id="totalSeats">0</strong>
+        </article>
+        <article>
+          <i class="fa-solid fa-wallet"></i>
+          <span>Total paid</span>
+          <strong id="totalPaid">INR 0</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="latest-trip" th:if="${!#lists.isEmpty(bookings)}">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Latest confirmed trip</span>
+          <h2 th:text="${bookings[0].bStart + ' to ' + bookings[0].bEnd}">Colombo to Jaffna</h2>
+        </div>
+        <span class="status-pill"><i class="fa-solid fa-circle-check"></i> Confirmed</span>
+      </div>
+
+      <div class="boarding-pass">
+        <div class="pass-main">
+          <div class="airline-mark">
+            <i class="fa-solid fa-plane"></i>
+          </div>
+          <div>
+            <span th:text="${bookings[0].airline}">IndiGo</span>
+            <strong th:text="${bookings[0].flightNumber}">6E 201</strong>
+            <small th:text="${bookings[0].aircraftModel}">Airbus A320neo</small>
+          </div>
+          <div class="route-line">
+            <b th:text="${bookings[0].bStart}">Colombo</b>
+            <i class="fa-solid fa-plane"></i>
+            <b th:text="${bookings[0].bEnd}">Jaffna</b>
+          </div>
+        </div>
+        <div class="pass-details">
+          <span><small>Departure</small><b th:text="${bookings[0].departureTime}">06:10 AM</b></span>
+          <span><small>Arrival</small><b th:text="${bookings[0].arrivalTime}">07:22 AM</b></span>
+          <span><small>Class</small><b th:text="${bookings[0].classType}">ECONOMY</b></span>
+          <span><small>Seats</small><b th:text="${bookings[0].seatNumbers}">A1</b></span>
+          <span><small>Reference</small><b th:text="${bookings[0].bookingReference}">JK12345678</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="empty-state" th:if="${#lists.isEmpty(bookings)}">
+      <i class="fa-solid fa-suitcase-rolling"></i>
+      <h2>No bookings yet</h2>
+      <p>Once you complete a payment, your confirmed flights will appear here automatically from the booking database.</p>
+      <a th:href="@{/api/v1/auth/index#book-form}" href="/api/v1/auth/index#book-form">Book your first flight</a>
+    </section>
+
+    <section class="booking-grid" th:if="${!#lists.isEmpty(bookings)}">
+      <article class="booking-card"
+               th:each="b, iter : ${bookings}"
+               th:attr="data-search=${(b.bookingReference ?: '') + ' ' + (b.airline ?: '') + ' ' + (b.flightNumber ?: '') + ' ' + (b.bStart ?: '') + ' ' + (b.bEnd ?: '') + ' ' + (b.seatNumbers ?: '')},
+                        data-price=${b.price},
+                        data-seats=${b.bNumOfseat}">
+        <div class="card-head">
+          <div>
+            <span th:text="${b.airline}">IndiGo</span>
+            <h3 th:text="${b.flightNumber}">6E 201</h3>
+          </div>
+          <strong th:text="${b.bookingReference}">JK12345678</strong>
+        </div>
+        <div class="route-card">
+          <b th:text="${b.bStart}">Colombo</b>
+          <span><i class="fa-solid fa-plane"></i></span>
+          <b th:text="${b.bEnd}">Jaffna</b>
+        </div>
+        <dl>
+          <div><dt>Time</dt><dd th:text="${b.departureTime + ' - ' + b.arrivalTime}">06:10 AM - 07:22 AM</dd></div>
+          <div><dt>Aircraft</dt><dd th:text="${b.aircraftModel}">Airbus A320neo</dd></div>
+          <div><dt>Class</dt><dd th:text="${b.classType}">ECONOMY</dd></div>
+          <div><dt>Seats</dt><dd th:text="${b.seatNumbers}">A1, A2</dd></div>
+          <div><dt>Travellers</dt><dd th:text="${b.bNumOfseat}">1</dd></div>
+          <div><dt>Fare</dt><dd class="money" th:text="${'INR ' + #numbers.formatDecimal(b.price, 0, 'COMMA', 0, 'POINT')}">INR 396,000</dd></div>
+        </dl>
+      </article>
+    </section>
+
+    <section class="history-panel" th:if="${!#lists.isEmpty(bookings)}">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Previous flights and reservations</span>
+          <h2>Booking history</h2>
+        </div>
+        <span class="history-count"><span id="visibleBookings" th:text="${#lists.size(bookings)}">0</span> visible</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Airline</th>
+            <th>Flight</th>
+            <th>Route</th>
+            <th>Cabin</th>
+            <th>Seats</th>
+            <th>Schedule</th>
+            <th>Fare</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="history-row"
+              th:each="b : ${bookings}"
+              th:attr="data-search=${(b.bookingReference ?: '') + ' ' + (b.airline ?: '') + ' ' + (b.flightNumber ?: '') + ' ' + (b.bStart ?: '') + ' ' + (b.bEnd ?: '') + ' ' + (b.seatNumbers ?: '')}">
+            <td th:text="${b.bookingReference}">JK12345678</td>
+            <td th:text="${b.airline}">IndiGo</td>
+            <td th:text="${b.flightNumber}">6E 201</td>
+            <td th:text="${b.bStart + ' to ' + b.bEnd}">Colombo to Jaffna</td>
+            <td th:text="${b.classType}">ECONOMY</td>
+            <td th:text="${b.seatNumbers}">A1, A2</td>
+            <td th:text="${b.departureTime + ' - ' + b.arrivalTime}">06:10 AM - 07:22 AM</td>
+            <td th:text="${'INR ' + #numbers.formatDecimal(b.price, 0, 'COMMA', 0, 'POINT')}">INR 396,000</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const searchInput = document.getElementById('bookingSearch');
+  const cards = Array.from(document.querySelectorAll('.booking-card'));
+  const rows = Array.from(document.querySelectorAll('.history-row'));
+  const visibleCount = document.getElementById('visibleBookings');
+  const totalSeats = document.getElementById('totalSeats');
+  const totalPaid = document.getElementById('totalPaid');
+
+  const formatter = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0
+  });
+
+  const totals = cards.reduce((summary, card) => {
+    summary.seats += Number(card.dataset.seats || 0);
+    summary.price += Number(card.dataset.price || 0);
+    return summary;
+  }, { seats: 0, price: 0 });
+
+  if (totalSeats) totalSeats.textContent = totals.seats.toLocaleString('en-IN');
+  if (totalPaid) totalPaid.textContent = formatter.format(totals.price);
+
+  function applyBookingSearch() {
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const match = card.dataset.search.toLowerCase().includes(query);
+      card.hidden = !match;
+      if (match) visible += 1;
+    });
+
+    rows.forEach(row => {
+      row.hidden = !row.dataset.search.toLowerCase().includes(query);
+    });
+
+    if (visibleCount) visibleCount.textContent = visible;
+  }
+
+  searchInput?.addEventListener('input', applyBookingSearch);
+</script>
+</body>
+</html>

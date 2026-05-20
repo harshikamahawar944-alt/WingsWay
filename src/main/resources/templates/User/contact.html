@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | WingWay Airlines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../../static/css/contact-premium.css" th:href="@{/css/contact-premium.css(v=1)}">
+</head>
+<body class="contact-page">
+<nav class="contact-nav" aria-label="Primary navigation">
+    <a class="contact-brand" th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index" aria-label="WingWay home">
+        <span><i class="fa-solid fa-plane-departure"></i></span>
+        <strong>WingWay</strong>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <div class="contact-links" id="contactLinks">
+        <a th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index">Flights</a>
+        <a th:href="@{/api/v1/auth/index#book-form}" href="/api/v1/auth/index#book-form">Book</a>
+        <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings">My Trips</a>
+        <a class="active" th:href="@{/api/v1/auth/contact}" href="/api/v1/auth/contact">Contact</a>
+    </div>
+
+    <a class="nav-login" th:href="@{/api/v1/auth/login}" href="/api/v1/auth/login">
+        <i class="fa-regular fa-user"></i>
+        Login
+    </a>
+</nav>
+
+<main>
+    <section class="contact-hero" id="top">
+        <div class="hero-overlay"></div>
+        <div class="floating-cloud cloud-one"></div>
+        <div class="floating-cloud cloud-two"></div>
+        <i class="fa-solid fa-plane floating-plane" aria-hidden="true"></i>
+
+        <div class="hero-content reveal">
+            <span class="eyebrow"><i class="fa-solid fa-headset"></i> Premium passenger support</span>
+            <h1>Contact WingWay Airlines</h1>
+            <p>
+                Our travel specialists are ready to help with bookings, flight changes, baggage, refunds, and airport assistance before, during, and after your journey.
+            </p>
+            <div class="hero-actions">
+                <a class="primary-button" href="#contactForm"><i class="fa-solid fa-paper-plane"></i> Send Message</a>
+                <a class="secondary-button" href="tel:+94112345678"><i class="fa-solid fa-phone-volume"></i> 24/7 Helpline</a>
+            </div>
+        </div>
+
+        <aside class="hero-card glass-card reveal" aria-label="Emergency assistance">
+            <span>Emergency travel desk</span>
+            <strong>+94 11 234 5678</strong>
+            <p>Same-day airport, boarding, medical, and disruption support.</p>
+            <div>
+                <small><i class="fa-solid fa-circle-check"></i> Live agents online</small>
+                <small><i class="fa-solid fa-clock"></i> Avg reply 12 min</small>
+            </div>
+        </aside>
+    </section>
+
+    <section class="quick-support reveal" aria-label="Why contact us">
+        <article>
+            <i class="fa-solid fa-ticket"></i>
+            <h2>Booking Assistance</h2>
+            <p>New reservations, passenger details, payment help, and seat selections.</p>
+        </article>
+        <article>
+            <i class="fa-solid fa-plane-circle-check"></i>
+            <h2>Flight Changes</h2>
+            <p>Schedule updates, route changes, cancellations, and travel alerts.</p>
+        </article>
+        <article>
+            <i class="fa-solid fa-suitcase-rolling"></i>
+            <h2>Baggage Support</h2>
+            <p>Allowance, delayed baggage, missing items, and airport desk guidance.</p>
+        </article>
+        <article>
+            <i class="fa-solid fa-universal-access"></i>
+            <h2>Special Care</h2>
+            <p>Wheelchair support, medical assistance, infants, and senior travel.</p>
+        </article>
+    </section>
+
+    <section class="emergency-banner reveal">
+        <div>
+            <span class="eyebrow">Urgent travel issue?</span>
+            <h2>For flights departing today, call the priority desk.</h2>
+        </div>
+        <a href="tel:+94112345678"><i class="fa-solid fa-phone"></i> Call Now</a>
+    </section>
+
+    <section class="contact-workspace">
+        <div class="info-panel reveal">
+            <span class="eyebrow">Company contact details</span>
+            <h2>We are here for every mile.</h2>
+            <p class="panel-copy">Keep your booking reference ready so our support team can identify your trip faster.</p>
+
+            <div class="contact-details">
+                <article>
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <div>
+                        <span>Customer Support Number</span>
+                        <a href="tel:+94112345678">+94 11 234 5678</a>
+                    </div>
+                </article>
+                <article>
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <div>
+                        <span>Official Email</span>
+                        <a href="mailto:care@wingwayair.com">care@wingwayair.com</a>
+                    </div>
+                </article>
+                <article>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <span>Office Location</span>
+                        <p>WingWay Tower, Airport Road, Colombo</p>
+                    </div>
+                </article>
+                <article>
+                    <i class="fa-regular fa-clock"></i>
+                    <div>
+                        <span>Working Hours</span>
+                        <p>24/7 helpline · Office 8:00 AM - 10:00 PM</p>
+                    </div>
+                </article>
+            </div>
+
+            <div class="social-box">
+                <span>Follow WingWay</span>
+                <div class="social-links" aria-label="Social media links">
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://www.instagram.com/_harshikaaa_/" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <section class="form-panel glass-card reveal" id="contactForm" aria-labelledby="formTitle">
+            <span class="eyebrow">Send us a message</span>
+            <h2 id="formTitle">How can we assist you?</h2>
+            <form id="wingwayContactForm" autocomplete="on">
+                <div class="field-grid">
+                    <label>
+                        <span>Full Name</span>
+                        <input type="text" name="name" placeholder="Enter your full name" required>
+                    </label>
+                    <label>
+                        <span>Email Address</span>
+                        <input type="email" name="email" placeholder="name@example.com" required>
+                    </label>
+                </div>
+
+                <div class="field-grid">
+                    <label>
+                        <span>Phone Number</span>
+                        <input type="tel" name="phone" placeholder="+94 77 123 4567">
+                    </label>
+                    <label>
+                        <span>Subject</span>
+                        <select name="subject" required>
+                            <option value="">Choose a subject</option>
+                            <option>Booking or payment support</option>
+                            <option>Flight change or cancellation</option>
+                            <option>Baggage or lost item</option>
+                            <option>Refund request</option>
+                            <option>Special assistance</option>
+                            <option>Corporate travel support</option>
+                        </select>
+                    </label>
+                </div>
+
+                <label>
+                    <span>Message</span>
+                    <textarea name="message" placeholder="Tell us about your request" required></textarea>
+                </label>
+
+                <p id="contactFormStatus" class="form-status" aria-live="polite"></p>
+                <button class="send-button" type="submit">
+                    <span>Send Message</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </section>
+    </section>
+
+    <section class="map-section reveal" aria-labelledby="mapTitle">
+        <div class="map-copy">
+            <span class="eyebrow">Visit our office</span>
+            <h2 id="mapTitle">WingWay Colombo Support Center</h2>
+            <p>Find our passenger support office near the airport business district.</p>
+        </div>
+        <div class="map-frame">
+            <iframe
+                    title="WingWay Colombo office map"
+                    src="https://www.google.com/maps?q=Colombo%20Sri%20Lanka&output=embed"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <section class="faq-section reveal" aria-labelledby="faqTitle">
+        <div class="section-heading">
+            <span class="eyebrow">Frequently asked questions</span>
+            <h2 id="faqTitle">Fast answers before you contact us.</h2>
+        </div>
+
+        <div class="faq-list">
+            <details>
+                <summary>How fast will WingWay respond to my request?</summary>
+                <p>Most email requests receive a response within 12 to 24 hours. Same-day travel issues should use the priority phone line.</p>
+            </details>
+            <details>
+                <summary>Can I change or cancel a booking from this page?</summary>
+                <p>Use the My Trips page for confirmed booking details, then contact support if your itinerary needs assistance from an agent.</p>
+            </details>
+            <details>
+                <summary>What details should I include in my message?</summary>
+                <p>Include your name, email, phone number, booking reference, route, flight number, and a short description of the issue.</p>
+            </details>
+        </div>
+    </section>
+</main>
+
+<a class="live-chat" href="#contactForm" aria-label="Open support form">
+    <i class="fa-solid fa-comments"></i>
+    <span>Live support</span>
+</a>
+
+<footer class="contact-footer">
+    <div>
+        <strong>WingWay Airlines</strong>
+        <p>Premium airline assistance for reservations, airport services, and travel confidence.</p>
+    </div>
+    <div>
+        <a th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index">Home</a>
+        <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings">My Trips</a>
+        <a th:href="@{/api/v1/auth/login}" href="/api/v1/auth/login">Login</a>
+    </div>
+</footer>
+
+<script>
+    const navToggle = document.querySelector(".nav-toggle");
+    const contactLinks = document.getElementById("contactLinks");
+    const status = document.getElementById("contactFormStatus");
+
+    navToggle.addEventListener("click", () => {
+        const isOpen = contactLinks.classList.toggle("open");
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+        navToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", event => {
+            const target = document.querySelector(anchor.getAttribute("href"));
+            if (!target) return;
+            event.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            contactLinks.classList.remove("open");
+            navToggle.setAttribute("aria-expanded", "false");
+            navToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        });
+    });
+
+    document.getElementById("wingwayContactForm").addEventListener("submit", event => {
+        event.preventDefault();
+        status.textContent = "Thank you. Your message is ready for WingWay support and our team will contact you shortly.";
+        status.classList.add("show");
+        event.currentTarget.reset();
+    });
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.16 });
+
+    document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+</script>
+</body>
+</html>
