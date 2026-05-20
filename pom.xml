@@ -124,7 +124,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
-                <mainClass>com.JKShian.ArmsApplication</mainClass>
+                <mainClass>com.jkshian.arms.ArmsApplication</mainClass>
             </configuration>
 
             <executions>
