@@ -12,7 +12,7 @@ FROM eclipse-temurin:21
 
 WORKDIR /app
 
-COPY --from=build /app/target/ARMS.jar app.jar
+COPY --from=build /app/target/ARMS-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
