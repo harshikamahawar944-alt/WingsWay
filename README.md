@@ -17,7 +17,7 @@ The Airline Reservation Management System is a web-based application that stream
 ## Technologies Used
 - Frontend: HTML, CSS, JavaScript
 - Backend: Java Spring Boot
-- Database: MySql
+- Database: H2
 
 ### Clone the Repository
 ```bash
@@ -25,7 +25,7 @@ git clone https://github.com/ImeshaDilshani/Airline-Reservation-Management-Syste
 cd Airline-Reservation-Management-System
 ```
 ### Database Setup
-Create a MySQL database and import the provided schema to set up the necessary tables.
+The app uses a file-based H2 database by default. Hibernate creates and updates the tables automatically, and the app seeds a default admin account plus starter flights on first run.
 
 ### Backend Setup
 - Configure the database connection in `src/main/resources/application.properties`.
@@ -36,10 +36,28 @@ Create a MySQL database and import the provided schema to set up the necessary t
 .\mvnw.cmd spring-boot:run
 ```
 
-- The app uses port `8090` by default. To change it, set `SERVER_PORT`.
+- The app uses port `8080` locally by default and automatically uses Render's `PORT` value in production.
 - In VS Code, run the `ArmsApplication` launch configuration. Do not run `ArmsApplication.java` as a single current file, because Spring Boot dependencies are loaded through Maven.
 
+### Render Deployment
+The app can run on Render without an external database because it uses H2. By default, the database file is created at `./data/arms` inside the running service.
+
+For data that survives redeploys, add a Render persistent disk and set this environment variable:
+
+```bash
+H2_DB_PATH=/var/data/arms
+```
+
+Remove any old MySQL environment variables from Render, especially `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, and `SPRING_DATASOURCE_PASSWORD`. Spring Boot gives environment variables higher priority than `application.properties`, so old values can override the H2 configuration.
+
+If you do not attach a persistent disk, Render may lose the H2 database file on redeploy. The default login seeded by the app is:
+
+```text
+Email: admin@jkshian.com
+Password: Admin@123
+```
+
 ## Access the Application
-Open your web browser and visit `http://localhost:8090` to access the Airline Reservation Management System.
+Open your web browser and visit `http://localhost:8080` to access the Airline Reservation Management System.
 
 
