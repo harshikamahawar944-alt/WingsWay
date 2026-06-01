@@ -82,7 +82,7 @@
 
         <!-- Content -->
         <div class="content-box">
-            <div class="top-badge">Now flying to 12+ cities</div>
+            <div class="top-badge"><i class="fa-solid fa-circle-check"></i> Now flying to 12+ cities</div>
             
             <h1 class="main-head">
                 Fly <span class="blue-word">smarter</span>, <br>travel beautifully.
@@ -93,8 +93,45 @@
             </p>
             
             <div class="btn-container">
-                <a href="#" class="action-btn fill-btn" onclick="bookFlight()">Book a flight</a>
-                <a href="#" class="action-btn border-btn" onclick="viewSchedule()">View schedule</a>
+                <a href="#" class="action-btn fill-btn" onclick="bookFlight()"><i class="fa-solid fa-ticket"></i> Book a flight</a>
+                <a href="#" class="action-btn border-btn" onclick="viewSchedule()"><i class="fa-regular fa-calendar"></i> View schedule</a>
+            </div>
+
+            <div class="hero-trust-row">
+                <span><strong>24/7</strong> support</span>
+                <span><strong>Fast</strong> booking</span>
+                <span><strong>Secure</strong> fares</span>
+            </div>
+        </div>
+
+        <div class="hero-flight-panel" aria-hidden="true">
+            <div class="hero-panel-top">
+                <span>Live route</span>
+                <i class="fa-solid fa-plane"></i>
+            </div>
+            <div class="hero-route-map">
+                <div class="route-node">
+                    <strong>DEL</strong>
+                    <small>Departure</small>
+                </div>
+                <div class="route-line-visual">
+                    <span></span>
+                    <i class="fa-solid fa-plane"></i>
+                </div>
+                <div class="route-node">
+                    <strong>DXB</strong>
+                    <small>Arrival</small>
+                </div>
+            </div>
+            <div class="hero-panel-bottom">
+                <div>
+                    <small>Boarding</small>
+                    <strong>08:45</strong>
+                </div>
+                <div>
+                    <small>Cabin</small>
+                    <strong>Premium</strong>
+                </div>
             </div>
         </div>
 
@@ -1030,7 +1067,7 @@
   <div class="sky-grid">
     <div class="sky-col sky-brand">
       <a class="footer-logo" th:href="@{/api/v1/auth/index}"><i class="fa-solid fa-plane"></i> WingWay</a>
-      <p>Search, compare, and book JKshian flights with a smooth reservation flow from route search to confirmation.</p>
+      <p>Search, compare, and book WingWay flights with a smooth reservation flow from route search to confirmation.</p>
     </div>
     <div class="sky-col">
       <h4>Explore</h4>

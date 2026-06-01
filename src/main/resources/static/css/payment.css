@@ -1,100 +1,404 @@
+:root {
+  --navy: #071833;
+  --navy-soft: #10294f;
+  --blue: #0f62fe;
+  --blue-strong: #0753d8;
+  --sky: #eaf4ff;
+  --ice: #f7fbff;
+  --line: #dbe8f7;
+  --text: #14233a;
+  --muted: #64748b;
+  --white: #ffffff;
+  --success: #14845f;
+  --warning: #f59e0b;
+  --shadow-soft: 0 24px 70px rgba(7, 24, 51, 0.13);
+  --shadow-card: 0 16px 40px rgba(15, 98, 254, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
 body {
+  min-height: 100vh;
   margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(180deg, #eef7ef 0%, #d4e6d6 100%);
-  color: #102b18;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 16% 8%, rgba(15, 98, 254, 0.16), transparent 30%),
+    radial-gradient(circle at 82% 10%, rgba(30, 136, 229, 0.14), transparent 28%),
+    linear-gradient(135deg, #f8fbff 0%, #eef6ff 48%, #f9fcff 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(116deg, transparent 0 49%, rgba(255, 255, 255, 0.75) 49% 50%, transparent 50% 100%),
+    repeating-linear-gradient(90deg, rgba(7, 24, 51, 0.035) 0 1px, transparent 1px 100px);
+  opacity: 0.8;
 }
 
 .payment-shell {
+  position: relative;
   min-height: 100vh;
-  padding: 40px 20px;
+  padding: 48px 20px;
 }
 
 .container {
-  max-width: 980px;
+  width: min(1080px, 100%);
   margin: 0 auto;
   display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
   gap: 24px;
+  align-items: start;
 }
 
 .booking-details,
 .payment-method,
 .confirmation-card {
-  background: #fff;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(219, 232, 247, 0.94);
   border-radius: 28px;
-  padding: 28px;
-  box-shadow: 0 24px 70px rgba(20, 64, 33, 0.14);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.booking-details,
+.payment-method {
+  padding: 30px;
+}
+
+.booking-details::before,
+.payment-method::before,
+.confirmation-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--blue), #4fb3ff, var(--navy));
 }
 
 .booking-details h1 {
-  margin-top: 0;
+  margin: 0 0 12px;
+  color: var(--navy);
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 750;
+  line-height: 1.05;
+}
+
+.booking-details h1::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 10px;
+  border-radius: 999px;
+  background: var(--blue);
+  box-shadow: 0 0 0 7px rgba(15, 98, 254, 0.12);
+  vertical-align: 0.12em;
+}
+
+.booking-details h2,
+.payment-method h2,
+.confirmation-card h2 {
+  margin: 0 0 18px;
+  color: var(--navy);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.booking-details h2 {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
 }
 
 .booking-details p,
 .printable-ticket p {
-  margin: 10px 0;
+  margin: 0;
+}
+
+.booking-details p {
+  display: grid;
+  grid-template-columns: minmax(118px, 0.78fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(219, 232, 247, 0.76);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.booking-details p:last-child {
+  border-bottom: 0;
+}
+
+.booking-details strong {
+  color: #52657e;
+  font-weight: 650;
+}
+
+.booking-details span {
+  color: var(--navy);
+  font-weight: 650;
+}
+
+#ticket-price {
+  color: var(--blue-strong);
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.payment-method {
+  box-shadow: 0 28px 78px rgba(7, 24, 51, 0.15);
+}
+
+.payment-method h2::after {
+  content: "Secure checkout";
+  display: inline-flex;
+  margin-left: 12px;
+  padding: 6px 10px;
+  border: 1px solid rgba(20, 132, 95, 0.2);
+  border-radius: 999px;
+  background: rgba(20, 132, 95, 0.09);
+  color: var(--success);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
 }
 
 .payment-method form {
   display: flex;
   flex-direction: column;
+  margin: 0;
 }
 
-.payment-method label,
-.payment-method input {
-  margin-bottom: 10px;
+.payment-method label {
+  margin: 0 0 8px;
+  color: #52657e;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
 }
 
 .payment-method input {
-  border: 1px solid #cfddcf;
+  width: 100%;
+  min-height: 50px;
+  margin: 0 0 16px;
+  border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 14px;
+  padding: 14px 16px;
+  background: var(--ice);
+  color: var(--navy);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.payment-method input::placeholder {
+  color: #94a3b8;
+}
+
+.payment-method input:focus {
+  border-color: rgba(15, 98, 254, 0.55);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(15, 98, 254, 0.12);
+}
+
+#payment-status {
+  min-height: 22px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 .buttonsub {
-  background: #1f8a47;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border: 0;
   border-radius: 999px;
-  color: white;
   padding: 14px 26px;
-  font-size: 16px;
-  cursor: pointer;
-  display: inline-block;
+  background: linear-gradient(135deg, var(--blue), #073b8e);
+  color: var(--white);
+  box-shadow: 0 16px 32px rgba(15, 98, 254, 0.26);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 750;
+  text-align: center;
   text-decoration: none;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease, background 180ms ease;
+}
+
+.buttonsub::after {
+  content: ">";
+  margin-left: 10px;
+  font-weight: 800;
 }
 
 .buttonsub.secondary {
-  background: #e8f2ea;
-  color: #154126;
+  border: 1px solid rgba(15, 98, 254, 0.18);
+  background: var(--white);
+  color: var(--blue-strong);
+  box-shadow: 0 10px 24px rgba(7, 24, 51, 0.06);
 }
 
 .buttonsub:hover {
-  background: #146434;
+  transform: translateY(-2px);
+  box-shadow: 0 20px 38px rgba(15, 98, 254, 0.32);
+  filter: saturate(1.08);
 }
 
 .buttonsub.secondary:hover {
-  background: #dceadd;
+  background: #f8fbff;
+  box-shadow: 0 16px 32px rgba(7, 24, 51, 0.1);
+}
+
+.buttonsub:active {
+  transform: translateY(0);
+}
+
+.buttonsub:focus-visible {
+  outline: 3px solid rgba(15, 98, 254, 0.28);
+  outline-offset: 3px;
 }
 
 .eyebrow {
+  width: fit-content;
+  margin: 0 0 12px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(20, 132, 95, 0.09);
+  color: var(--success);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.24em;
-  font-size: 12px;
-  color: #2d7d46;
+}
+
+.confirmation-card {
+  grid-column: 1 / -1;
+  padding: 32px;
+}
+
+.confirmation-card h2 {
+  margin-bottom: 10px;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 750;
+}
+
+#confirmationMessage {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .confirmation-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 22px;
 }
 
 .printable-ticket {
-  margin-top: 18px;
-  border: 1px dashed #99b59f;
-  border-radius: 20px;
-  padding: 20px;
-  background: #f8fbf8;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 22px;
+  margin-top: 22px;
+  border: 1px dashed rgba(15, 98, 254, 0.34);
+  border-radius: 22px;
+  padding: 22px;
+  background:
+    linear-gradient(90deg, rgba(15, 98, 254, 0.08), transparent 44%),
+    var(--ice);
+}
+
+.printable-ticket p {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(219, 232, 247, 0.86);
+  color: var(--navy);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.printable-ticket strong {
+  color: #52657e;
+  font-weight: 650;
+}
+
+@media (max-width: 900px) {
+  .payment-shell {
+    padding: 30px 14px;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-details,
+  .payment-method,
+  .confirmation-card {
+    border-radius: 22px;
+  }
+}
+
+@media (max-width: 680px) {
+  .payment-shell {
+    padding: 16px 10px;
+  }
+
+  .booking-details,
+  .payment-method,
+  .confirmation-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+
+  .booking-details p,
+  .printable-ticket p {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .payment-method h2::after {
+    display: flex;
+    width: fit-content;
+    margin: 10px 0 0;
+  }
+
+  .confirmation-actions,
+  .printable-ticket {
+    grid-template-columns: 1fr;
+  }
+
+  .confirmation-actions .buttonsub,
+  .payment-method .buttonsub {
+    width: 100%;
+  }
 }
 
 @media print {
@@ -102,17 +406,36 @@ body {
     background: #fff;
   }
 
+  body::before,
   .payment-method,
   .confirmation-actions,
   #paymentPanel {
     display: none !important;
   }
 
+  .payment-shell,
   .container,
   .confirmation-card,
   .printable-ticket {
+    display: block;
     box-shadow: none;
     border: none;
     padding: 0;
+    background: #fff;
+  }
+
+  .confirmation-card::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
