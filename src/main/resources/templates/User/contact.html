@@ -29,10 +29,40 @@
         <a class="active" th:href="@{/api/v1/auth/contact}" href="/api/v1/auth/contact">Contact</a>
     </div>
 
-    <a class="nav-login" th:href="@{/api/v1/auth/login}" href="/api/v1/auth/login">
+    <a class="nav-login" th:if="${!loggedIn}" th:href="@{/api/v1/auth/login}" href="/api/v1/auth/login">
         <i class="fa-regular fa-user"></i>
         Login
     </a>
+    <div class="contact-profile-menu" th:if="${loggedIn}">
+        <button class="contact-profile-button" type="button" id="profileMenuButton" aria-expanded="false" aria-controls="profileDropdown">
+            <span class="contact-profile-avatar" th:text="${profileInitial}">W</span>
+            <span class="contact-profile-copy">
+                <strong th:text="${profileName}">WingWay Passenger</strong>
+                <small th:text="${profileRole}">USER</small>
+            </span>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+
+        <div class="contact-profile-dropdown" id="profileDropdown" role="menu" aria-labelledby="profileMenuButton">
+            <div class="contact-profile-head">
+                <span class="contact-profile-avatar large" th:text="${profileInitial}">W</span>
+                <div>
+                    <strong th:text="${profileName}">WingWay Passenger</strong>
+                    <p th:text="${profileEmail}">passenger@example.com</p>
+                </div>
+            </div>
+            <div class="contact-profile-actions">
+                <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings" role="menuitem">
+                    <i class="fa-solid fa-briefcase"></i>
+                    My bookings
+                </a>
+                <a class="logout-action" th:href="@{/api/v1/auth/logout}" href="/api/v1/auth/logout" role="menuitem">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <main>
@@ -114,7 +144,7 @@
                     <i class="fa-solid fa-envelope-open-text"></i>
                     <div>
                         <span>Official Email</span>
-                        <a href="mailto:harshikamahawa944@gmail.com">harshikamahawar944@gmail.com</a>
+                        <a href="mailto:harshikamahawar966@gmail.com">harshikamahawar966@gmail.com</a>
                     </div>
                 </article>
                 <article>
@@ -243,7 +273,8 @@
     <div>
         <a th:href="@{/api/v1/auth/index}" href="/api/v1/auth/index">Home</a>
         <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings">My Trips</a>
-        <a th:href="@{/api/v1/auth/login}" href="/api/v1/auth/login">Login</a>
+        <a th:if="${!loggedIn}" th:href="@{/api/v1/auth/login}" href="/api/v1/auth/login">Login</a>
+        <a th:if="${loggedIn}" th:href="@{/api/v1/auth/logout}" href="/api/v1/auth/logout">Logout</a>
     </div>
 </footer>
 
@@ -251,11 +282,36 @@
     const navToggle = document.querySelector(".nav-toggle");
     const contactLinks = document.getElementById("contactLinks");
     const status = document.getElementById("contactFormStatus");
+    const profileButton = document.getElementById("profileMenuButton");
+    const profileDropdown = document.getElementById("profileDropdown");
+
+    function closeProfileMenu() {
+        profileDropdown?.classList.remove("show");
+        profileButton?.setAttribute("aria-expanded", "false");
+    }
 
     navToggle.addEventListener("click", () => {
         const isOpen = contactLinks.classList.toggle("open");
         navToggle.setAttribute("aria-expanded", String(isOpen));
         navToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+    });
+
+    profileButton?.addEventListener("click", event => {
+        event.stopPropagation();
+        const isOpen = profileDropdown.classList.toggle("show");
+        profileButton.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.addEventListener("click", event => {
+        if (!event.target.closest(".contact-profile-menu")) {
+            closeProfileMenu();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            closeProfileMenu();
+        }
     });
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

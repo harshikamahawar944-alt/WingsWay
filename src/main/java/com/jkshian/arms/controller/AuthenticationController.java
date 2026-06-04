@@ -39,27 +39,7 @@ public class AuthenticationController {
 
     @GetMapping({"", "/", "/index", "/index.html"})
     public String index(Model model, Authentication authentication, HttpServletRequest request) {
-        boolean loggedIn = (authentication != null
-                && authentication.isAuthenticated()
-                && !(authentication instanceof AnonymousAuthenticationToken))
-                || hasValidJwtCookie(request);
-        model.addAttribute("loggedIn", loggedIn);
-
-        if (authentication != null && authentication.getPrincipal() instanceof User user) {
-            String fullName = ((user.getFirstName() != null ? user.getFirstName() : "") + " "
-                    + (user.getLastName() != null ? user.getLastName() : "")).trim();
-            model.addAttribute("profileName", fullName.isBlank() ? user.getEmail() : fullName);
-            model.addAttribute("profileEmail", user.getEmail());
-            model.addAttribute("profileRole", user.getRole() != null ? user.getRole().name().replace("ROLE_", "") : "USER");
-            model.addAttribute("profileInitial", !fullName.isBlank()
-                    ? fullName.substring(0, 1).toUpperCase()
-                    : user.getEmail().substring(0, 1).toUpperCase());
-        } else {
-            model.addAttribute("profileName", "WingWay Passenger");
-            model.addAttribute("profileEmail", "Signed in");
-            model.addAttribute("profileRole", "USER");
-            model.addAttribute("profileInitial", "W");
-        }
+        addLoginState(model, authentication, request);
         return "User/index";
     }
 
@@ -73,7 +53,8 @@ public class AuthenticationController {
         return "User/registration";}
 
     @GetMapping({"/contact", "/contact.html"})
-    public String contact() {
+    public String contact(Model model, Authentication authentication, HttpServletRequest request) {
+        addLoginState(model, authentication, request);
         return "User/contact";
     }
 
@@ -159,6 +140,30 @@ public class AuthenticationController {
                 .maxAge(0)
                 .sameSite("Lax")
                 .build();
+    }
+
+    private void addLoginState(Model model, Authentication authentication, HttpServletRequest request) {
+        boolean loggedIn = (authentication != null
+                && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken))
+                || hasValidJwtCookie(request);
+        model.addAttribute("loggedIn", loggedIn);
+
+        if (authentication != null && authentication.getPrincipal() instanceof User user) {
+            String fullName = ((user.getFirstName() != null ? user.getFirstName() : "") + " "
+                    + (user.getLastName() != null ? user.getLastName() : "")).trim();
+            model.addAttribute("profileName", fullName.isBlank() ? user.getEmail() : fullName);
+            model.addAttribute("profileEmail", user.getEmail());
+            model.addAttribute("profileRole", user.getRole() != null ? user.getRole().name().replace("ROLE_", "") : "USER");
+            model.addAttribute("profileInitial", !fullName.isBlank()
+                    ? fullName.substring(0, 1).toUpperCase()
+                    : user.getEmail().substring(0, 1).toUpperCase());
+        } else {
+            model.addAttribute("profileName", "WingWay Passenger");
+            model.addAttribute("profileEmail", "Signed in");
+            model.addAttribute("profileRole", "USER");
+            model.addAttribute("profileInitial", "W");
+        }
     }
 
     private boolean hasValidJwtCookie(HttpServletRequest request) {

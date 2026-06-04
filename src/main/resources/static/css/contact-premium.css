@@ -85,6 +85,7 @@ textarea:focus-visible {
 .contact-brand,
 .contact-links,
 .nav-login,
+.contact-profile-button,
 .hero-actions,
 .social-links,
 .contact-footer > div:last-child,
@@ -143,6 +144,180 @@ textarea:focus-visible {
     justify-content: center;
     gap: 8px;
     border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.contact-profile-menu {
+    position: relative;
+    justify-self: end;
+}
+
+.contact-profile-button {
+    gap: 10px;
+    min-height: 48px;
+    max-width: 260px;
+    padding: 5px 12px 5px 5px;
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 30px rgba(3, 13, 28, 0.2);
+    transition: 0.22s ease;
+}
+
+.contact-profile-button:hover,
+.contact-profile-button[aria-expanded="true"] {
+    transform: translateY(-1px);
+    background: var(--white);
+    box-shadow: 0 18px 38px rgba(3, 13, 28, 0.26);
+}
+
+.contact-profile-avatar {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--blue));
+}
+
+.contact-profile-avatar.large {
+    width: 52px;
+    height: 52px;
+    font-size: 1.2rem;
+}
+
+.contact-profile-copy {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+    text-align: left;
+}
+
+.contact-profile-copy strong {
+    max-width: 142px;
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.contact-profile-copy small {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.contact-profile-button > i {
+    color: var(--muted);
+    font-size: 0.78rem;
+    transition: transform 0.22s ease;
+}
+
+.contact-profile-button[aria-expanded="true"] > i {
+    transform: rotate(180deg);
+}
+
+.contact-profile-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 80;
+    width: min(330px, calc(100vw - 32px));
+    display: none;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+}
+
+.contact-profile-dropdown.show {
+    display: block;
+    animation: profileMenuIn 0.22s ease both;
+}
+
+.contact-profile-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #eef7ff, #ffffff);
+}
+
+.contact-profile-head strong,
+.contact-profile-head p {
+    overflow-wrap: anywhere;
+}
+
+.contact-profile-head strong {
+    display: block;
+    color: var(--ink);
+    font-size: 1.05rem;
+}
+
+.contact-profile-head p {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.contact-profile-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.contact-profile-actions a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 12px;
+    color: var(--ink);
+    font-weight: 800;
+    border-radius: 8px;
+    background: #f1f7fb;
+    transition: 0.22s ease;
+}
+
+.contact-profile-actions a:hover {
+    color: var(--blue);
+    background: #e7f2ff;
+    transform: translateX(2px);
+}
+
+.contact-profile-actions .logout-action {
+    color: #b42318;
+    background: #fff1f0;
+}
+
+.contact-profile-actions .logout-action:hover {
+    color: var(--white);
+    background: #d92d20;
+}
+
+@keyframes profileMenuIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .nav-toggle {
@@ -819,7 +994,7 @@ textarea:focus {
 
 @media (max-width: 820px) {
     .contact-nav {
-        grid-template-columns: auto auto;
+        grid-template-columns: auto auto auto;
     }
 
     .nav-toggle {
@@ -850,8 +1025,14 @@ textarea:focus {
         justify-content: center;
     }
 
-    .nav-login {
+    .nav-login,
+    .contact-profile-copy {
         display: none;
+    }
+
+    .contact-profile-button {
+        min-height: 44px;
+        padding: 3px;
     }
 
     .contact-hero {
