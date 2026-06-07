@@ -37,18 +37,30 @@
 </div>
 
 <main class="auth-shell">
+  <section class="auth-visual" aria-label="WingWay passenger sign in">
+    <div class="auth-kicker"><i class="fa-solid fa-plane-departure"></i> WingWay Airlines</div>
+    <h1>Board your next journey with confidence.</h1>
+    <p>Access bookings, manage trips, and continue your airline reservation experience with a secure passenger account.</p>
+    <div class="auth-stats" aria-hidden="true">
+      <span><strong>24/7</strong> Support</span>
+      <span><strong>12+</strong> Routes</span>
+      <span><strong>Secure</strong> Login</span>
+    </div>
+  </section>
+
   <section class="login-card">
+    <div class="form-badge"><i class="fa-solid fa-shield-halved"></i> Secure passenger portal</div>
     <div class="card-header">
       <h2>Welcome Back</h2>
       <p>Login to continue your journey</p>
     </div>
 
-    <form id="loginForm">
+    <form id="loginForm" autocomplete="off">
       <div class="form-group">
         <label for="email">Email Address</label>
         <div class="input-wrapper">
           <i class="fas fa-envelope"></i>
-          <input id="email" name="email" type="email" class="form-control" placeholder="user@example.com" required>
+          <input id="email" name="email" type="email" class="form-control" placeholder="user@example.com" autocomplete="off" value="" required>
         </div>
       </div>
 
@@ -56,7 +68,7 @@
         <label for="password">Password</label>
         <div class="input-wrapper">
           <i class="fas fa-lock"></i>
-          <input id="password" name="password" type="password" class="form-control" placeholder="Enter your password" required>
+          <input id="password" name="password" type="password" class="form-control" placeholder="Enter your password" autocomplete="new-password" value="" required>
         </div>
       </div>
 
@@ -79,6 +91,21 @@
   const status = document.getElementById('loginStatus');
   const button = form.querySelector('.btn-login');
   const buttonText = button.innerHTML;
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+
+  function clearLoginFields() {
+    emailInput.value = '';
+    passwordInput.value = '';
+  }
+
+  clearLoginFields();
+  window.addEventListener('pageshow', clearLoginFields);
+  window.addEventListener('load', () => {
+    clearLoginFields();
+    setTimeout(clearLoginFields, 100);
+    setTimeout(clearLoginFields, 500);
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -91,8 +118,8 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: document.getElementById('email').value.trim(),
-          password: document.getElementById('password').value
+          email: emailInput.value.trim(),
+          password: passwordInput.value
         })
       });
 
