@@ -2289,9 +2289,10 @@ h3 {
             margin-right: calc(50% - 50vw);
             padding-left: max(0px, calc((100vw - 1400px) / 2));
             padding-right: max(0px, calc((100vw - 1400px) / 2));
-            height: 650px;
+            min-height: 650px;
+            height: auto;
             display: grid;
-            grid-template-columns: 1fr 1.8fr; 
+            grid-template-columns: minmax(280px, 550px) minmax(0, 1fr);
             gap: 20px;
             
 
@@ -2300,7 +2301,7 @@ h3 {
         /* --- 3. Left Side Card (Deep Blue) --- */
         .left-card {
             background-color: #003366; /* Deep Airline Blue */
-            width: 550px;
+            width: 100%;
             height: 500px;
             color: white;
             border-radius: 12px;
@@ -2337,17 +2338,20 @@ h3 {
         /* --- 4. Right Side Grid (4 Cards) --- */
         .right-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-rows: repeat(2, minmax(250px, auto));
             gap: 15px;
             margin-top: 50px;
+            min-width: 0;
+            width: 100%;
         }
 
         /* Individual Right Cards Style */
         .info-card {
             background-color: #ffffff;
             border: 1px solid rgb(199, 198, 198); 
-            width: 430px;
+            width: 100%;
+            min-width: 0;
             height: 250px;
             border-radius: 20px;
             padding: 20px;
@@ -2394,15 +2398,30 @@ h3 {
         }
 
         /* --- 5. RESPONSIVE CSS (Mobile View) --- */
+        @media (max-width: 1100px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 50px 20px 60px;
+            }
+
+            .left-card,
+            .right-grid {
+                margin-top: 0;
+            }
+        }
+
         @media (max-width: 768px) {
             .main-container {
                 /* Mobile: Grid break kar do aur vertical stack karo */
                 grid-template-columns: 1fr;
+                min-height: 0;
+                padding: 40px 16px;
             }
 
             .right-grid {
                 /* Right side cards bhi vertical stack ho jayenge mobile par */
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-rows: none;
             }
 
             .left-card {
@@ -2411,6 +2430,18 @@ h3 {
 
             .left-card h2 {
                 font-size: 2.5rem; /* Text size adjust karein mobile ke liye */
+            }
+        }
+
+        @media (max-width: 640px) {
+            .right-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .left-card,
+            .info-card {
+                height: auto;
+                min-height: 250px;
             }
         }
 
@@ -3389,6 +3420,22 @@ body {
     margin-left: 0;
   }
 
+  .feedback-container,
+  #features,
+  .main-container,
+  .sky-main-footer {
+    display: flow-root;
+    overflow-x: clip;
+  }
+
+  #features,
+  .main-container,
+  .sky-main-footer,
+  .sky-grid,
+  .sky-bottom {
+    box-sizing: border-box;
+  }
+
   .search-card,
   .big-box,
   .travel-showcase-wrapper,
@@ -3420,7 +3467,15 @@ body {
   .promo-grid-wrapper,
   .trip-layout-wrapper,
   .right-grid {
+    width: 100%;
     max-width: 100%;
+    min-width: 0;
+  }
+
+  .features-grid,
+  .sky-grid {
+    margin-right: 0;
+    margin-left: 0;
   }
 
   .photo-card,
@@ -4938,4 +4993,259 @@ video {
   }
 }
 
+@media (max-width: 768px) {
+  html,
+  body,
+  .container,
+  .page {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+    overflow-x: hidden;
+  }
 
+  body,
+  .container,
+  .page {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .feedback-container,
+  #features,
+  .main-container,
+  .sky-main-footer {
+    display: flow-root;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-right: 0;
+    margin-left: 0;
+    overflow-x: hidden;
+  }
+
+  #features::before,
+  .sky-bg-blob {
+    max-width: 100%;
+  }
+
+  .features-grid,
+  .main-container,
+  .right-grid,
+  .info-card,
+  .left-card,
+  .sky-grid,
+  .sky-bottom,
+  .sky-news-card,
+  .sky-input-group,
+  .sky-inp {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .features-grid,
+  .sky-grid,
+  .sky-bottom {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .sky-main-footer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    overflow-x: hidden;
+  }
+
+  .nav-logo {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .nav-logo-mark {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border-radius: 12px;
+  }
+
+  .nav-brand-name {
+    font-size: clamp(22px, 7vw, 26px);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .nav-user {
+    flex: 0 0 auto;
+    min-width: 0;
+    gap: 8px;
+    padding: 0;
+  }
+
+  .auth-login-btn,
+  .auth-signup-btn {
+    min-height: 38px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .auth-signup-btn {
+    min-width: auto;
+    padding: 0 12px;
+  }
+
+  .profile-button {
+    max-width: min(100%, 220px);
+    min-height: 42px;
+  }
+
+  .nav-links {
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-radius: 16px;
+  }
+
+  .nav-link {
+    flex: 0 0 auto;
+    padding: 9px 11px;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .profile-dropdown {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+  }
+
+  .main-sec {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: auto;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 24px;
+    padding: clamp(52px, 12vw, 72px) 16px 104px;
+    overflow: hidden;
+  }
+
+  .main-sec::after {
+    right: -42vw;
+    bottom: -24vw;
+    width: min(520px, 118vw);
+    height: min(520px, 118vw);
+  }
+
+  .bg-shade,
+  .bg-image,
+  .content-box,
+  .hero-flight-panel {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .bg-image {
+    transform: none;
+  }
+
+  .content-box {
+    width: 100%;
+  }
+
+  .top-badge {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .content-box h1,
+  .main-head {
+    max-width: 100%;
+    font-size: clamp(2.55rem, 13vw, 4rem);
+    line-height: 0.98;
+  }
+
+  .desc-text {
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .btn-container {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .action-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-trust-row span {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+  }
+
+  .hero-flight-panel {
+    flex: 0 1 auto;
+    width: 100%;
+    margin-top: 0;
+    padding: 18px;
+    animation: none;
+  }
+
+  .hero-route-map,
+  .hero-panel-bottom {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .auth-login-btn span {
+    display: none;
+  }
+
+  .profile-button-copy {
+    display: none;
+  }
+
+  .hero-trust-row span {
+    flex-basis: 100%;
+  }
+
+  .hero-panel-bottom {
+    flex-direction: column;
+  }
+
+  .hero-panel-bottom div {
+    width: 100%;
+  }
+}
