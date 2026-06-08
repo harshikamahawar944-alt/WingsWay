@@ -130,9 +130,17 @@
       }
 
       const auth = await response.json();
-      localStorage.setItem('jwtToken', auth.token);
-      localStorage.setItem('userRole', auth.role);
-      window.authUtils?.syncAuthCookie();
+      let storedToken = true;
+      try {
+        localStorage.setItem('jwtToken', auth.token);
+        localStorage.setItem('userRole', auth.role);
+      } catch (error) {
+        storedToken = false;
+        document.cookie = `jwtToken=${encodeURIComponent(auth.token)}; path=/; max-age=86400; SameSite=Lax`;
+      }
+      if (storedToken) {
+        window.authUtils?.syncAuthCookie();
+      }
       await new Promise((resolve) => requestAnimationFrame(resolve));
 
       window.location.assign(auth.role === 'ROLE_ADMIN'

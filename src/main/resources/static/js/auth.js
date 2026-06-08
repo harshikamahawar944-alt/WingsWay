@@ -1,8 +1,24 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
 
+  function safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function safeStorageRemove(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      return;
+    }
+  }
+
   function getToken() {
-    return localStorage.getItem("jwtToken");
+    return safeStorageGet("jwtToken");
   }
 
   function decodePayload(token) {
@@ -33,8 +49,8 @@
   }
 
   function clearAuth() {
-    localStorage.removeItem("jwtToken");
-    localStorage.removeItem("userRole");
+    safeStorageRemove("jwtToken");
+    safeStorageRemove("userRole");
     document.cookie = "jwtToken=; path=/; max-age=0; SameSite=Lax";
   }
 

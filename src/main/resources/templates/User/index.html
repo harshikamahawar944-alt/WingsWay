@@ -58,6 +58,10 @@
             <span><i class="fa-solid fa-plane-circle-check"></i> Travel profile <b>Active</b></span>
           </div>
           <div class="profile-card-actions">
+            <a th:if="${profileRole == 'ADMIN'}" th:href="@{/api/v1/demo-controller/admin/getAllUsers}" href="/api/v1/demo-controller/admin/getAllUsers" role="menuitem">
+              <i class="fa-solid fa-gauge-high"></i>
+              Admin panel
+            </a>
             <a th:href="@{/api/v1/demo-controller/user/my-bookings}" href="/api/v1/demo-controller/user/my-bookings" role="menuitem">
               <i class="fa-solid fa-briefcase"></i>
               My bookings

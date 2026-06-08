@@ -165,11 +165,27 @@ select {
   padding: clamp(26px, 4vw, 42px);
   overflow: hidden;
   background:
-    linear-gradient(110deg, rgba(255, 255, 255, 0.98), rgba(237, 247, 255, 0.9)),
-    url("../images/HeroSection.png") right center / min(520px, 48vw) no-repeat;
+    linear-gradient(110deg, rgba(255, 255, 255, 0.99) 0%, rgba(237, 247, 255, 0.95) 48%, rgba(237, 247, 255, 0.5) 68%, rgba(237, 247, 255, 0.08) 100%),
+    var(--admin-hero-image, url("../images/HeroSection.png")) right center / min(520px, 48vw) auto no-repeat;
   border: 1px solid rgba(30, 58, 138, 0.1);
   border-radius: 8px;
   box-shadow: var(--admin-shadow);
+}
+
+.admin-hero-users {
+  --admin-hero-image: url("../images/HeroSection1.png");
+}
+
+.admin-hero-flights {
+  --admin-hero-image: url("../images/HeroSection.png");
+}
+
+.admin-hero-bookings {
+  --admin-hero-image: url("../images/Ticket.png");
+}
+
+.admin-hero-add-user {
+  --admin-hero-image: url("../images/ContactUs.png");
 }
 
 .admin-eyebrow {
@@ -526,8 +542,8 @@ select {
   .admin-hero {
     padding: 22px;
     background:
-      linear-gradient(110deg, rgba(255, 255, 255, 0.98), rgba(237, 247, 255, 0.94)),
-      url("../images/HeroSection.png") right bottom / 260px no-repeat;
+      linear-gradient(110deg, rgba(255, 255, 255, 0.99) 0%, rgba(237, 247, 255, 0.96) 58%, rgba(237, 247, 255, 0.72) 100%),
+      var(--admin-hero-image, url("../images/HeroSection.png")) right bottom / min(300px, 70vw) auto no-repeat;
   }
 
   .admin-hero h1 {
