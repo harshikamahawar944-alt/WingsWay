@@ -116,6 +116,7 @@
     try {
       const response = await fetch('/api/v1/auth/authenticate', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: emailInput.value.trim(),
@@ -132,10 +133,11 @@
       localStorage.setItem('jwtToken', auth.token);
       localStorage.setItem('userRole', auth.role);
       window.authUtils?.syncAuthCookie();
+      await new Promise((resolve) => requestAnimationFrame(resolve));
 
-      window.location.href = auth.role === 'ROLE_ADMIN'
+      window.location.assign(auth.role === 'ROLE_ADMIN'
         ? '/api/v1/demo-controller/admin/getAllUsers'
-        : '/api/v1/auth/index';
+        : '/api/v1/auth/index');
     } catch (error) {
       status.textContent = 'Unable to login right now. Please try again.';
     } finally {

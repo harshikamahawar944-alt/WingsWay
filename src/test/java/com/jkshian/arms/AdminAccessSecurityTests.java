@@ -34,7 +34,7 @@ class AdminAccessSecurityTests {
     private ObjectMapper objectMapper;
 
     @Test
-    void adminCanOpenPanelWhenAStaleJwtCookieIsAlsoPresent() throws Exception {
+    void adminCanOpenProtectedPagesWhenAStaleJwtCookieIsAlsoPresent() throws Exception {
         String loginResponse = mockMvc.perform(post("/api/v1/auth/authenticate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -52,9 +52,15 @@ class AdminAccessSecurityTests {
         Cookie staleCookie = new Cookie("jwtToken", "stale-or-malformed-token");
         Cookie validCookie = new Cookie("jwtToken", auth.get("token").asText());
 
-        mockMvc.perform(get("/api/v1/demo-controller/admin/getAllUsers")
-                        .cookie(staleCookie, validCookie))
+        assertAdminPageOpens("/api/v1/demo-controller/admin/getAllUsers", "User Details", staleCookie, validCookie);
+        assertAdminPageOpens("/api/v1/demo-controller/admin/flights", "Manage Flights", staleCookie, validCookie);
+        assertAdminPageOpens("/api/v1/demo-controller/admin/bookings", "All User Bookings", staleCookie, validCookie);
+        assertAdminPageOpens("/api/v1/demo-controller/admin/users/new", "Add User", staleCookie, validCookie);
+    }
+
+    private void assertAdminPageOpens(String path, String expectedText, Cookie staleCookie, Cookie validCookie) throws Exception {
+        mockMvc.perform(get(path).cookie(staleCookie, validCookie))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("User Details")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString(expectedText)));
     }
 }
