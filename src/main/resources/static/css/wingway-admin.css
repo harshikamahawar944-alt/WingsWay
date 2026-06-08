@@ -108,6 +108,7 @@ select {
   display: flex;
   align-items: center;
   gap: 8px;
+  max-width: 100%;
   padding: 6px;
   background: rgba(241, 246, 250, 0.9);
   border: 1px solid rgba(19, 55, 87, 0.08);
@@ -336,6 +337,7 @@ select {
 .admin-table-wrap {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .admin-table {
@@ -468,6 +470,7 @@ select {
     width: 100%;
     overflow-x: auto;
     border-radius: 8px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-actions {
@@ -480,13 +483,39 @@ select {
 }
 
 @media (max-width: 680px) {
+  .admin-nav {
+    gap: 12px;
+    min-height: auto;
+    padding: 12px;
+  }
+
   .admin-main {
     width: calc(100% - 24px);
     padding-top: 18px;
   }
 
+  .admin-brand {
+    gap: 10px;
+  }
+
+  .admin-brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+
   .admin-brand strong {
     font-size: 25px;
+  }
+
+  .admin-links a {
+    flex: 0 0 auto;
+    min-width: 44px;
+    padding: 0 13px;
+  }
+
+  .admin-logout {
+    width: 100%;
   }
 
   .admin-links a span,
@@ -494,12 +523,40 @@ select {
     display: none;
   }
 
+  .admin-hero {
+    padding: 22px;
+    background:
+      linear-gradient(110deg, rgba(255, 255, 255, 0.98), rgba(237, 247, 255, 0.94)),
+      url("../images/HeroSection.png") right bottom / 260px no-repeat;
+  }
+
+  .admin-hero h1 {
+    font-size: 34px;
+  }
+
+  .admin-panel-head {
+    padding: 18px;
+  }
+
+  .admin-panel-head h2 {
+    font-size: 29px;
+  }
+
   .admin-form-grid {
     grid-template-columns: 1fr;
   }
 
+  .admin-form {
+    padding: 18px;
+  }
+
   .admin-button,
-  .admin-button-secondary {
+  .admin-button-secondary,
+  .admin-form-actions {
     width: 100%;
+  }
+
+  .admin-danger-button {
+    min-width: 44px;
   }
 }

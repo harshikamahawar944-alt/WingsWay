@@ -7,11 +7,13 @@
 
   function decodePayload(token) {
     try {
-      const payload = token.split(".")[1];
+      let payload = token.split(".")[1];
       if (!payload) {
         return null;
       }
-      return JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+      payload = payload.replace(/-/g, "+").replace(/_/g, "/");
+      payload += "=".repeat((4 - (payload.length % 4)) % 4);
+      return JSON.parse(atob(payload));
     } catch (error) {
       return null;
     }

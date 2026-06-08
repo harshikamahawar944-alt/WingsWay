@@ -1326,3 +1326,54 @@ Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.passwor
 2026-06-07T19:25:14.803+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m13s996ms995µs100ns).
 2026-06-07T20:52:14.409+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h9m59s466ms732µs600ns).
 2026-06-08T01:21:21.914+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h30m33s802ms395µs300ns).
+2026-06-08T01:29:38.857+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=46s886ms95µs400ns).
+2026-06-08T05:14:27.959+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m18s145ms799µs900ns).
+2026-06-08T06:13:34.147+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=45m35s529ms886µs700ns).
+2026-06-08T07:02:37.107+05:30  WARN 13832 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=36m32s863ms696µs900ns).
+2026-06-08T07:09:14.747+05:30  INFO 13832 --- [nio-8095-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-08T07:09:14.844+05:30  INFO 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-08T07:09:14.871+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-06-08T07:09:14.874+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-06-08T07:09:14.883+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-06-08T07:09:15.054+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@62fee9c3
+2026-06-08T07:09:15.058+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@4cde5d66
+2026-06-08T07:09:15.068+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-06-08T07:09:15.075+05:30  INFO 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 223 ms
+2026-06-08T07:09:16.060+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/auth/login", parameters={}
+2026-06-08T07:09:16.076+05:30 DEBUG 13832 --- [nio-8095-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jkshian.arms.controller.AuthenticationController#login()
+2026-06-08T07:09:16.471+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [*/*]
+2026-06-08T07:09:17.881+05:30 DEBUG 13832 --- [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-06-08T07:09:31.996+05:30 DEBUG 13832 --- [nio-8095-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/api/v1/auth/authenticate", parameters={}
+2026-06-08T07:09:31.996+05:30 DEBUG 13832 --- [nio-8095-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jkshian.arms.controller.AuthenticationController#authenticate(AuthenticationRequest, HttpServletResponse)
+2026-06-08T07:09:32.339+05:30 DEBUG 13832 --- [nio-8095-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [AuthenticationRequest(email=admin@jkshian.com, password=Admin@123)]
+2026-06-08T07:09:32.879+05:30 DEBUG 13832 --- [nio-8095-exec-3] org.hibernate.SQL                        : select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+2026-06-08T07:09:33.863+05:30 DEBUG 13832 --- [nio-8095-exec-3] org.hibernate.SQL                        : select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+2026-06-08T07:09:34.486+05:30 DEBUG 13832 --- [nio-8095-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-06-08T07:09:34.488+05:30 DEBUG 13832 --- [nio-8095-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthenticationResponse(token=eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBqa3NoaWFuLmNvbSIsImlhdCI6MTc4MD (truncated)...]
+2026-06-08T07:09:34.501+05:30 DEBUG 13832 --- [nio-8095-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-06-08T07:09:34.869+05:30 DEBUG 13832 --- [nio-8095-exec-4] org.hibernate.SQL                        : select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+2026-06-08T07:09:34.879+05:30 DEBUG 13832 --- [nio-8095-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/demo-controller/admin/getAllUsers", parameters={}
+2026-06-08T07:09:34.881+05:30 DEBUG 13832 --- [nio-8095-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jkshian.arms.demo.DemoController#getAllUsers(Model)
+2026-06-08T07:09:35.156+05:30 DEBUG 13832 --- [nio-8095-exec-4] org.hibernate.SQL                        : select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0
+Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0
+2026-06-08T07:09:35.189+05:30 DEBUG 13832 --- [nio-8095-exec-4] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [*/*]
+2026-06-08T07:09:35.276+05:30 DEBUG 13832 --- [nio-8095-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-06-08T07:09:35.301+05:30 DEBUG 13832 --- [nio-8095-exec-5] org.hibernate.SQL                        : select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+2026-06-08T07:09:35.306+05:30 DEBUG 13832 --- [nio-8095-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/demo-controller/admin/flights", parameters={}
+2026-06-08T07:09:35.306+05:30 DEBUG 13832 --- [nio-8095-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jkshian.arms.demo.DemoController#flightsPage(Model)
+2026-06-08T07:09:35.314+05:30 DEBUG 13832 --- [nio-8095-exec-5] org.hibernate.SQL                        : select ap1_0.id,ap1_0.aircraft_model,ap1_0.airline,ap1_0.arrival_time,ap1_0.avl_seat,ap1_0.departure_time,ap1_0.end,ap1_0.flight_number,ap1_0.num_of_km,ap1_0.price,ap1_0.start from airplane ap1_0
+Hibernate: select ap1_0.id,ap1_0.aircraft_model,ap1_0.airline,ap1_0.arrival_time,ap1_0.avl_seat,ap1_0.departure_time,ap1_0.end,ap1_0.flight_number,ap1_0.num_of_km,ap1_0.price,ap1_0.start from airplane ap1_0
+2026-06-08T07:09:35.418+05:30 DEBUG 13832 --- [nio-8095-exec-5] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [*/*]
+2026-06-08T07:09:35.486+05:30 DEBUG 13832 --- [nio-8095-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-06-08T07:09:35.713+05:30 DEBUG 13832 --- [nio-8095-exec-6] org.hibernate.SQL                        : select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,u1_0.role from `user` u1_0 where u1_0.email=?
+2026-06-08T07:09:35.720+05:30 DEBUG 13832 --- [nio-8095-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/v1/demo-controller/admin/bookings", parameters={}
+2026-06-08T07:09:35.721+05:30 DEBUG 13832 --- [nio-8095-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.jkshian.arms.demo.DemoController#bookingsPage(Model)
+2026-06-08T07:09:35.731+05:30 DEBUG 13832 --- [nio-8095-exec-6] org.hibernate.SQL                        : select b1_0.id,b1_0.aircraft_model,b1_0.airline,b1_0.arrival_time,b1_0.b_end,b1_0.b_num_ofseat,b1_0.b_start,b1_0.booking_reference,b1_0.class_type,b1_0.departure_time,b1_0.flight_number,b1_0.price,b1_0.seat_numbers,b1_0.user_email from booking b1_0
+Hibernate: select b1_0.id,b1_0.aircraft_model,b1_0.airline,b1_0.arrival_time,b1_0.b_end,b1_0.b_num_ofseat,b1_0.b_start,b1_0.booking_reference,b1_0.class_type,b1_0.departure_time,b1_0.flight_number,b1_0.price,b1_0.seat_numbers,b1_0.user_email from booking b1_0
+2026-06-08T07:09:35.758+05:30 DEBUG 13832 --- [nio-8095-exec-6] o.s.w.s.v.ContentNegotiatingViewResolver : Selected '*/*' given [*/*]
+2026-06-08T07:09:35.801+05:30 DEBUG 13832 --- [nio-8095-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
